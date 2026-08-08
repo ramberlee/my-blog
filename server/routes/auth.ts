@@ -45,8 +45,9 @@ async function verifyPassword(password: string, stored: string): Promise<boolean
  */
 async function getDefaultAuth(): Promise<AuthData> {
   const salt = await genSalt(BCRYPT_ROUNDS)
+  const defaultPassword = process.env.ADMIN_DEFAULT_PASSWORD || 'admin123'
   return {
-    passwordHash: await hash('admin123', salt),
+    passwordHash: await hash(defaultPassword, salt),
     sessions: {},
     loginAttempts: 0,
     lockedUntil: 0,

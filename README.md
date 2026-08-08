@@ -62,7 +62,7 @@ npm run server
 npm run test
 ```
 
-默认登录地址 `/login`，密码 `admin123`。
+默认登录地址 `/login`，密码 `admin123`（首次初始化时可用环境变量 `ADMIN_DEFAULT_PASSWORD` 覆盖）。
 
 ## API 端点
 
@@ -204,6 +204,10 @@ PORT=3001 npm run server
 | MAX_UPLOAD_SIZE_MB | 5 | 上传大小限制 |
 | IMAGE_MAX_WIDTH | 1200 | 压缩最大宽度 |
 | IMAGE_QUALITY | 80 | 压缩质量 |
+| SITE_URL | http://localhost:3001 | 站点公开地址（sitemap / RSS 使用） |
+| VITE_SITE_URL | - | 前端注入的站点地址（og:url / canonical） |
+| ADMIN_DEFAULT_PASSWORD | admin123 | 首次初始化默认管理员密码 |
+| VITE_API_BASE | /api | 前端 API 基地址（GitHub Pages 部署时为 ngrok 隧道地址） |
 
 ## 贡献
 

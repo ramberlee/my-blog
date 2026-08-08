@@ -23,10 +23,25 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-$Repo = 'ramberlee/my-blog'
 $Root = Split-Path -Parent $MyInvocation.MyCommand.Path
 $LogDir = Join-Path $Root 'logs'
 New-Item -ItemType Directory -Force -Path $LogDir | Out-Null
+
+function Get-GitHubRepo {
+  $remote = git -C $Root remote get-url origin 2>$null
+  if ($remote -match 'github\.com[:/]([^/]+/[^/]+?)(\.git)?$') {
+    return $Matches[1]
+  }
+  $fromGh = gh repo view --json nameWithOwner --jq .nameWithOwner 2>$null
+  if ($fromGh) { return $fromGh }
+  throw 'could not determine GitHub repo (git remote or gh CLI)'
+}
+
+$Repo = Get-GitHubRepo
+$Owner = ($Repo -split '/')[0]
+$RepoName = ($Repo -split '/')[1]
+$Port = if ($env:PORT) { $env:PORT } else { '3001' }
+$SiteUrl = "https://$Owner.github.io/$RepoName/"
 
 function Find-Ngrok {
   $candidates = @(
@@ -50,7 +65,7 @@ function Wait-Healthy {
   param([int]$TimeoutSeconds = 30)
   for ($i = 0; $i -lt $TimeoutSeconds; $i++) {
     try {
-      $r = Invoke-RestMethod -Uri 'http://localhost:3001/api/health' -TimeoutSec 2
+      $r = Invoke-RestMethod -Uri "http://localhost:$Port/api/health" -TimeoutSec 2
       if ($r.status -eq 'ok') { return $true }
     } catch { }
     Start-Sleep -Seconds 1
@@ -59,7 +74,7 @@ function Wait-Healthy {
 }
 
 # 1. Local backend
-Write-Host '[1/4] Checking local backend (localhost:3001) ...'
+Write-Host "[1/4] Checking local backend (localhost:$Port) ..."
 if (Wait-Healthy -TimeoutSeconds 3) {
   Write-Host '      backend already running'
 } else {
@@ -86,7 +101,7 @@ if ($tunnels -and $tunnels.Count -gt 0) {
 } else {
   $ngrok = Find-Ngrok
   Write-Host "      starting ngrok ($ngrok) ..."
-  Start-Process -FilePath $ngrok -ArgumentList 'http', '3001', '--log=stdout' `
+  Start-Process -FilePath $ngrok -ArgumentList 'http', $Port, '--log=stdout' `
     -WindowStyle Hidden `
     -RedirectStandardOutput (Join-Path $LogDir 'ngrok.out.log') `
     -RedirectStandardError (Join-Path $LogDir 'ngrok.err.log')
@@ -135,7 +150,7 @@ if ($SkipDeploy) {
       gh variable set VITE_API_BASE --repo $Repo --body $apiBase
       Write-Host "      VITE_API_BASE -> $apiBase"
       gh workflow run deploy.yml --repo $Repo
-      Write-Host '      deployment triggered: https://github.com/ramberlee/my-blog/actions'
+      Write-Host "      deployment triggered: https://github.com/$Repo/actions"
     }
   }
 }
@@ -143,5 +158,5 @@ if ($SkipDeploy) {
 Write-Host ''
 Write-Host 'Done.'
 Write-Host "  Tunnel:      $tunnelUrl"
-Write-Host "  Site:        https://ramberlee.github.io/my-blog/"
+Write-Host "  Site:        $SiteUrl"
 Write-Host "  Local dev:   http://localhost:5173/ (if vite is running)"

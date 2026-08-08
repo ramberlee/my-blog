@@ -16,7 +16,7 @@ interface Article {
 const FILE = 'articles.json'
 const DEFAULT_ARTICLES: Article[] = []
 
-const BASE_URL = 'http://localhost:3001'
+const BASE_URL = process.env.SITE_URL || 'http://localhost:3001'
 
 interface SitemapEntry {
   loc: string

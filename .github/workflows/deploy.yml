@@ -44,6 +44,7 @@ jobs:
         env:
           # 由仓库变量提供，隧道地址变化时只需更新变量并重新部署
           VITE_API_BASE: ${{ vars.VITE_API_BASE }}
+          VITE_SITE_URL: ${{ vars.VITE_SITE_URL }}
           VITE_BASE_PATH: ${{ steps.pages.outputs.base_path }}
 
       - name: Upload artifact

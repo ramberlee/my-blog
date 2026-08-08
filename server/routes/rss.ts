@@ -66,7 +66,7 @@ rss.get('/', (c) => {
   const config = readJSON<SiteConfig>(FILE_CONFIG, DEFAULT_CONFIG)
   const articles = readJSON<Article[]>(FILE_ARTICLES, DEFAULT_ARTICLES)
   const published = articles.filter(a => a.status === 'published')
-  const baseUrl = 'http://localhost:3001'
+  const baseUrl = process.env.SITE_URL || 'http://localhost:3001'
 
   const items = published
     .sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime())
