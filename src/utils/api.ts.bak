@@ -21,7 +21,23 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
   return res.json()
 }
 
-/* ï¿½ï¿½ï¿½ï¿½ Articles ï¿½ï¿½ï¿½ï¿½ */
+/* ©¤©¤ CSRF Token Management ©¤©¤ */
+let csrfToken: string | null = null
+
+async function getCsrfToken(): Promise<string> {
+  if (csrfToken) return csrfToken
+  const data = await request<{ csrfToken: string }>('/csrf-token')
+  csrfToken = data.csrfToken
+  sessionStorage.setItem('csrf-token', csrfToken)
+  return csrfToken
+}
+
+export function clearCsrfToken(): void {
+  csrfToken = null
+  sessionStorage.removeItem('csrf-token')
+}
+
+/* ©¤©¤ Articles ©¤©¤ */
 export interface Article {
   id: string
   title: string
@@ -39,21 +55,21 @@ export const articlesApi = {
   list: () => request<Article[]>('/articles'),
   listPaginated: (params: { page?: number; limit?: number; status?: string }) => {
     const qs = new URLSearchParams(params as Record<string, string>).toString()
-    return request<{ articles: Article[]; total: number; page: number; limit: number; hasMore: boolean }>(`/articles?${qs}`)
+    return request<{ articles: Article[]; total: number; page: number; limit: number; hasMore: boolean }>(/articles?)
   },
-  get: (id: string) => request<Article>(`/articles/${id}`),
+  get: (id: string) => request<Article>(/articles/),
   create: (data: Omit<Article, 'id' | 'createdAt' | 'updatedAt'>) =>
     request<Article>('/articles', { method: 'POST', body: JSON.stringify(data) }),
   update: (id: string, data: Partial<Article>) =>
-    request<Article>(`/articles/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-  delete: (id: string) => request<{ ok: boolean }>(`/articles/${id}`, { method: 'DELETE' }),
+    request<Article>(/articles/, { method: 'PUT', body: JSON.stringify(data) }),
+  delete: (id: string) => request<{ ok: boolean }>(/articles/, { method: 'DELETE' }),
   import: (data: Article[]) =>
     request<{ count: number; total: number }>('/articles/import', { method: 'POST', body: JSON.stringify(data) }),
   reorder: (ids: string[]) =>
     request<{ ok: boolean }>('/articles/reorder', { method: 'PUT', body: JSON.stringify({ ids }) }),
 }
 
-/* ï¿½ï¿½ï¿½ï¿½ Upload ï¿½ï¿½ï¿½ï¿½ */
+/* ©¤©¤ Upload ©¤©¤ */
 export const uploadApi = {
   image: async (file: File): Promise<{ url: string; thumbUrl: string; width: number; height: number }> => {
     const formData = new FormData()
@@ -70,7 +86,7 @@ export const uploadApi = {
   },
 }
 
-/* ï¿½ï¿½ï¿½ï¿½ Config ï¿½ï¿½ï¿½ï¿½ */
+/* ©¤©¤ Config ©¤©¤ */
 export interface SiteConfig {
   siteName: string
   siteDescription: string
@@ -89,7 +105,7 @@ export const configApi = {
   reset: () => request<SiteConfig>('/config/reset', { method: 'POST' }),
 }
 
-/* ï¿½ï¿½ï¿½ï¿½ Auth ï¿½ï¿½ï¿½ï¿½ */
+/* ©¤©¤ Auth ©¤©¤ */
 export const authApi = {
   login: (password: string) => request<{ token: string; expiry: number }>('/auth/login', { method: 'POST', body: JSON.stringify({ password }) }),
   verify: (token: string) => request<{ valid: boolean }>('/auth/verify', { method: 'POST', body: JSON.stringify({ token }) }),
@@ -97,7 +113,7 @@ export const authApi = {
   changePassword: (oldPassword: string, newPassword: string) => request<{ ok: boolean }>('/auth/change-password', { method: 'POST', body: JSON.stringify({ oldPassword, newPassword }) }),
 }
 
-/* ï¿½ï¿½ï¿½ï¿½ Analytics ï¿½ï¿½ï¿½ï¿½ */
+/* ©¤©¤ Analytics ©¤©¤ */
 export interface AnalyticsData {
   totalVisitors: number
   todayVisitors: number

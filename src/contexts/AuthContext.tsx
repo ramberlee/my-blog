@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useCallback, useEffect } from 'react'
 import type { ReactNode } from 'react'
-import { authApi, clearCsrfToken } from '../utils/api'
+import { authApi } from '../utils/api'
 
 interface AuthContextType {
   isAuth: boolean
@@ -54,8 +54,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     if (token) authApi.logout(token).catch(() => {})
     localStorage.removeItem(TOKEN_KEY)
     localStorage.removeItem(EXPIRY_KEY)
-    clearCsrfToken()
-    setIsAuth(false)
+setIsAuth(false)
   }, [])
 
   return (
