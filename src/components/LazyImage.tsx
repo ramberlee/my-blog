@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, type CSSProperties } from 'react'
+import { resolveAssetUrl } from '../utils/api'
 
 /** Props accepted by {@link LazyImage}. */
 interface LazyImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
@@ -57,7 +58,7 @@ const LazyImage: React.FC<LazyImageProps> = ({
     return () => observer.disconnect()
   }, [])
 
-  const imgSrc = error && fallbackSrc ? fallbackSrc : src
+  const imgSrc = resolveAssetUrl(error && fallbackSrc ? fallbackSrc : src)
 
   const containerStyle: CSSProperties = {
     position: 'relative',

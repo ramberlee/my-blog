@@ -1,5 +1,19 @@
 const BASE = import.meta.env.VITE_API_BASE ?? '/api'
 
+/**
+ * 把后端返回的相对资源路径（如 /uploads/xxx.jpg）解析成浏览器可访问的完整 URL。
+ * 绝对地址原样返回；BASE 为相对路径（本地代理）时保持同源相对路径。
+ */
+export function resolveAssetUrl(url?: string | null): string | undefined {
+  if (!url) return undefined
+  if (/^https?:\/\//i.test(url) || url.startsWith('//')) return url
+  if (url.startsWith('/')) {
+    if (BASE.startsWith('http')) return new URL(url, BASE).origin + url
+    return url
+  }
+  return url
+}
+
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',

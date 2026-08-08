@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useToast } from './Toast'
-import { configApi, authApi, uploadApi, type SiteConfig } from '../utils/api'
+import { configApi, authApi, uploadApi, resolveAssetUrl, type SiteConfig } from '../utils/api'
 
 const inputStyle: React.CSSProperties = { width: '100%', padding: '10px 14px', borderRadius: 10, background: 'var(--c-surface)', border: '1px solid var(--c-border)', color: 'var(--c-text-heading)', fontSize: 14, outline: 'none', fontFamily: 'var(--font-body)', transition: 'border-color 0.25s' }
 const labelStyle: React.CSSProperties = { display: 'block', fontSize: 13, fontWeight: 600, color: 'var(--c-text)', marginBottom: 6, letterSpacing: '0.01em' }
@@ -150,7 +150,7 @@ const ConfigManager: React.FC = () => {
           <h4 style={{ fontSize: 12, fontWeight: 600, color: 'var(--c-accent)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 16 }}>作者信息</h4>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
             <div><div style={{ fontSize: 12, color: 'var(--c-text-muted)', marginBottom: 2 }}>作者</div><div style={{ fontSize: 15, fontWeight: 600, color: 'var(--c-text-heading)' }}>{config.author.name}</div></div>
-            {config.author.avatar && <div style={{ marginBottom: 8 }}><img src={config.author.avatar} alt={config.author.name} style={{ width: 64, height: 64, borderRadius: 12, objectFit: 'cover', marginBottom: 8, border: '1px solid var(--c-border)' }} /><div style={{ fontSize: 12, color: 'var(--c-text-muted)', wordBreak: 'break-all' }}>{config.author.avatar}</div></div>}
+            {config.author.avatar && <div style={{ marginBottom: 8 }}><img src={resolveAssetUrl(config.author.avatar)} alt={config.author.name} style={{ width: 64, height: 64, borderRadius: 12, objectFit: 'cover', marginBottom: 8, border: '1px solid var(--c-border)' }} /><div style={{ fontSize: 12, color: 'var(--c-text-muted)', wordBreak: 'break-all' }}>{config.author.avatar}</div></div>}
             <div><div style={{ fontSize: 12, color: 'var(--c-text-muted)', marginBottom: 2 }}>简介</div><div style={{ fontSize: 14, color: 'var(--c-text)', lineHeight: 1.6 }}>{config.author.bio}</div></div>
             <div><div style={{ fontSize: 12, color: 'var(--c-text-muted)', marginBottom: 2 }}>邮箱</div><div style={{ fontSize: 14, color: 'var(--c-text)' }}>{config.author.email}</div></div>
           </div>

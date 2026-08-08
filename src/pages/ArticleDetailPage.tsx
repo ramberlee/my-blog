@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useSiteConfig, getSiteName, getLogoLetter } from '../hooks/useSiteConfig'
 import { Link, useParams } from 'react-router-dom'
 import { SEO } from '../components/SEO'
+import { resolveAssetUrl } from '../utils/api'
 import { articlesApi, type Article } from '../utils/api'
 import LazyImage from '../components/LazyImage'
 import { useRenderedMarkdown } from '../hooks/useRenderedMarkdown'
@@ -78,7 +79,7 @@ const ArticleDetailPage: React.FC = () => {
   }
   const description = article.content.slice(0, 150).replace(/[#*\n]/g, ' ').trim() + '...'
   const seoUrl = window.location.href
-  const seoImage = article.coverImage || undefined
+  const seoImage = resolveAssetUrl(article.coverImage)
 
   return (
     <div className="min-h-screen">

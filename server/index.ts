@@ -2,6 +2,8 @@ import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { serveStatic } from '@hono/node-server/serve-static'
 import { serve } from '@hono/node-server'
+import { join, dirname } from 'path'
+import { fileURLToPath } from 'url'
 import articles from './routes/articles.js'
 import config from './routes/config.js'
 import auth from './routes/auth.js'
@@ -15,6 +17,8 @@ import { initDB } from './db.js'
 initDB()
 
 const app = new Hono()
+const __dirname = dirname(fileURLToPath(import.meta.url))
+const UPLOADS_DIR = join(__dirname, 'uploads')
 
 // CORS configuration for GitHub Pages
 app.use('/*', cors({
@@ -57,6 +61,12 @@ app.get('/api/csrf-token', (c) => {
   const token = crypto.randomUUID()
   return c.json({ csrfToken: token })
 })
+
+// 上传的图片静态服务（/uploads/xxx.jpg）
+app.use('/uploads/*', serveStatic({
+  root: UPLOADS_DIR,
+  rewriteRequestPath: (path) => path.replace(/^\/uploads/, ''),
+}))
 
 // Error handling
 app.onError((err, c) => {
