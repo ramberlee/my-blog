@@ -1,8 +1,8 @@
-# ÄÚÍø´©Í¸ÅäÖÃÖ¸ÄÏ
+# å†…ç½‘ç©¿é€é…ç½®æŒ‡å—
 
-## ·½°¸Ò»£ºCloudflare Tunnel£¨ÍÆ¼ö£©
+## æ–¹æ¡ˆä¸€ï¼šCloudflare Tunnelï¼ˆæ¨èï¼‰
 
-### 1. °²×° cloudflared
+### 1. å®‰è£… cloudflared
 
 `ash
 # Windows
@@ -17,21 +17,21 @@ chmod +x cloudflared-linux-amd64
 sudo mv cloudflared-linux-amd64 /usr/local/bin/cloudflared
 `
 
-### 2. µÇÂ¼ Cloudflare
+### 2. ç™»å½• Cloudflare
 
 `ash
 cloudflared tunnel login
 `
 
-### 3. ´´½¨ËíµÀ
+### 3. åˆ›å»ºéš§é“
 
 `ash
 cloudflared tunnel create my-blog
 `
 
-### 4. ÅäÖÃËíµÀ
+### 4. é…ç½®éš§é“
 
-´´½¨ ~/.cloudflared/config.yml£º
+åˆ›å»º ~/.cloudflared/config.ymlï¼š
 
 `yaml
 tunnel: <tunnel-id>
@@ -43,21 +43,21 @@ ingress:
   - service: http_status:404
 `
 
-### 5. Ìí¼Ó DNS ¼ÇÂ¼
+### 5. æ·»åŠ  DNS è®°å½•
 
 `ash
 cloudflared tunnel route dns my-blog api.yourdomain.com
 `
 
-### 6. Æô¶¯ËíµÀ
+### 6. å¯åŠ¨éš§é“
 
 `ash
 cloudflared tunnel run my-blog
 `
 
-### 7. ÅäÖÃÇ°¶Ë
+### 7. é…ç½®å‰ç«¯
 
-ÔÚ .env ÎÄ¼şÖĞÉèÖÃ£º
+åœ¨ .env æ–‡ä»¶ä¸­è®¾ç½®ï¼š
 
 `env
 VITE_API_BASE=https://api.yourdomain.com/api
@@ -65,9 +65,9 @@ VITE_API_BASE=https://api.yourdomain.com/api
 
 ---
 
-## ·½°¸¶ş£ºngrok
+## æ–¹æ¡ˆäºŒï¼šngrok
 
-### 1. °²×° ngrok
+### 1. å®‰è£… ngrok
 
 `ash
 # Windows
@@ -81,21 +81,21 @@ curl -s https://ngrok-agent.s3.amazonaws.com/ngrok-v3-stable-linux-amd64.tgz | t
 sudo mv ngrok /usr/local/bin
 `
 
-### 2. ÅäÖÃ authtoken
+### 2. é…ç½® authtoken
 
 `ash
 ngrok config add-authtoken <your-token>
 `
 
-### 3. Æô¶¯ËíµÀ
+### 3. å¯åŠ¨éš§é“
 
 `ash
 ngrok http 3001
 `
 
-### 4. ÅäÖÃÇ°¶Ë
+### 4. é…ç½®å‰ç«¯
 
-¸´ÖÆ ngrok Ìá¹©µÄ HTTPS URL£¬ÔÚ .env ÎÄ¼şÖĞÉèÖÃ£º
+å¤åˆ¶ ngrok æä¾›çš„ HTTPS URLï¼Œåœ¨ .env æ–‡ä»¶ä¸­è®¾ç½®ï¼š
 
 `env
 VITE_API_BASE=https://xxxx.ngrok.io/api
@@ -103,42 +103,42 @@ VITE_API_BASE=https://xxxx.ngrok.io/api
 
 ---
 
-## ·½°¸Èı£ºfrp
+## æ–¹æ¡ˆä¸‰ï¼šfrp
 
-### 1. ·şÎñ¶ËÅäÖÃ
+### 1. æœåŠ¡ç«¯é…ç½®
 
-ÔÚÓĞ¹«Íø IP µÄ·şÎñÆ÷ÉÏ°²×° frps£º
+åœ¨æœ‰å…¬ç½‘ IP çš„æœåŠ¡å™¨ä¸Šå®‰è£… frpsï¼š
 
 `ash
-# ÏÂÔØ frp
+# ä¸‹è½½ frp
 wget https://github.com/fatedier/frp/releases/download/v0.58.0/frp_0.58.0_linux_amd64.tar.gz
 tar -xzf frp_0.58.0_linux_amd64.tar.gz
 cd frp_0.58.0_linux_amd64
 `
 
-ÅäÖÃ rps.toml£º
+é…ç½® rps.tomlï¼š
 
 `	oml
 bindPort = 7000
 vhostHTTPPort = 8080
 `
 
-Æô¶¯£º
+å¯åŠ¨ï¼š
 
 `ash
 ./frps -c frps.toml
 `
 
-### 2. ¿Í»§¶ËÅäÖÃ
+### 2. å®¢æˆ·ç«¯é…ç½®
 
-ÔÚ±¾»ú°²×° frpc£º
+åœ¨æœ¬æœºå®‰è£… frpcï¼š
 
 `ash
-# ÏÂÔØ frp
+# ä¸‹è½½ frp
 wget https://github.com/fatedier/frp/releases/download/v0.58.0/frp_0.58.0_windows_amd64.zip
 `
 
-ÅäÖÃ rpc.toml£º
+é…ç½® rpc.tomlï¼š
 
 `	oml
 serverAddr =  your-server-ip
@@ -151,15 +151,15 @@ localPort = 3001
 customDomains = [yourdomain.com]
 `
 
-Æô¶¯£º
+å¯åŠ¨ï¼š
 
 `ash
 ./frpc -c frpc.toml
 `
 
-### 3. ÅäÖÃ Nginx
+### 3. é…ç½® Nginx
 
-ÔÚ·şÎñÆ÷ÉÏÅäÖÃ Nginx ·´Ïò´úÀí£º
+åœ¨æœåŠ¡å™¨ä¸Šé…ç½® Nginx åå‘ä»£ç†ï¼š
 
 `
 ginx
@@ -177,16 +177,16 @@ server {
 
 ---
 
-## ¸üĞÂÇ°¶ËÅäÖÃ
+## æ›´æ–°å‰ç«¯é…ç½®
 
-ÎŞÂÛÊ¹ÓÃÄÄÖÖ·½°¸£¬¶¼ĞèÒª¸üĞÂÇ°¶ËÅäÖÃ£º
+æ— è®ºä½¿ç”¨å“ªç§æ–¹æ¡ˆï¼Œéƒ½éœ€è¦æ›´æ–°å‰ç«¯é…ç½®ï¼š
 
 `env
 # .env
 VITE_API_BASE=https://your-tunnel-url/api
 `
 
-È»ºóÖØĞÂ¹¹½¨£º
+ç„¶åé‡æ–°æ„å»ºï¼š
 
 `ash
 npm run build

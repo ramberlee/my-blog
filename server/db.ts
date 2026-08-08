@@ -16,7 +16,7 @@ db.pragma('foreign_keys = ON')
 
 /**
  * Initialize database tables.
- * Safe to call multiple times ¡ª uses IF NOT EXISTS.
+ * Safe to call multiple times â€” uses IF NOT EXISTS.
  */
 export function initTables(): void {
   db.exec(`
@@ -139,6 +139,8 @@ export function migrateFromJSON(): void {
     try {
       const data = JSON.parse(readFileSync(authPath, 'utf-8'))
       db.prepare('INSERT OR REPLACE INTO auth (key, value) VALUES (?, ?)').run('passwordHash', JSON.stringify(data.passwordHash))
+      db.prepare('INSERT OR REPLACE INTO auth (key, value) VALUES (?, ?)').run('loginAttempts', JSON.stringify(data.loginAttempts ?? 0))
+      db.prepare('INSERT OR REPLACE INTO auth (key, value) VALUES (?, ?)').run('lockedUntil', JSON.stringify(data.lockedUntil ?? 0))
       // Migrate sessions
       if (data.sessions && typeof data.sessions === 'object') {
         const insertSession = db.prepare('INSERT OR REPLACE INTO sessions (token, expiresAt) VALUES (?, ?)')

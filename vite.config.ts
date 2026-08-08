@@ -1,9 +1,12 @@
-﻿import { defineConfig } from 'vite'
+import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { VitePWA } from 'vite-plugin-pwa'
 
+const basePath = (process.env.VITE_BASE_PATH || '/').replace(/\/?$/, '/')
+
 export default defineConfig({
+  base: basePath,
   plugins: [
     react(),
     tailwindcss(),
@@ -18,7 +21,7 @@ export default defineConfig({
         background_color: '#0c0a09',
         display: 'standalone',
         icons: [
-          { src: '/favicon.svg', sizes: 'any', type: 'image/svg+xml' }
+          { src: 'favicon.svg', sizes: 'any', type: 'image/svg+xml' }
         ]
       },
       workbox: {

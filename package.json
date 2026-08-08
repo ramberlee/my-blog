@@ -24,6 +24,7 @@
         "@tiptap/extension-link": "^3.29.2",
         "@tiptap/react": "^3.29.2",
         "@tiptap/starter-kit": "^3.29.2",
+        "bcryptjs": "^3.0.3",
         "better-sqlite3": "^13.0.3",
         "dompurify": "^3.4.13",
         "highlight.js": "^11.11.1",

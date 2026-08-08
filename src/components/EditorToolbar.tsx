@@ -38,9 +38,8 @@ const disabledStyle: React.CSSProperties = {
 const iconSize = 16
 
 const EditorToolbar: React.FC<EditorToolbarProps> = ({ editor }) => {
-  if (!editor) return null
-
   const addImage = useCallback(() => {
+    if (!editor) return
     const url = window.prompt('输入图片 URL')
     if (url) {
       editor.chain().focus().setImage({ src: url }).run()
@@ -48,6 +47,7 @@ const EditorToolbar: React.FC<EditorToolbarProps> = ({ editor }) => {
   }, [editor])
 
   const setLink = useCallback(() => {
+    if (!editor) return
     const previousUrl = editor.getAttributes('link').href
     const url = window.prompt('输入链接 URL', previousUrl)
     if (url === null) return
@@ -87,6 +87,8 @@ const EditorToolbar: React.FC<EditorToolbarProps> = ({ editor }) => {
       {icon}
     </button>
   )
+
+  if (!editor) return null
 
   return (
     <div

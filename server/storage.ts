@@ -83,6 +83,8 @@ interface Article {
 interface AuthData {
   passwordHash: string
   sessions: Record<string, number>
+  loginAttempts: number
+  lockedUntil: number
 }
 
 interface AnalyticsData {
@@ -182,18 +184,26 @@ function readAuth(): AuthData {
   const hashRow = db.prepare("SELECT value FROM auth WHERE key = 'passwordHash'").get() as { value: string } | undefined
   const passwordHash = hashRow ? JSON.parse(hashRow.value) : ''
 
+  const attemptsRow = db.prepare("SELECT value FROM auth WHERE key = 'loginAttempts'").get() as { value: string } | undefined
+  const loginAttempts = attemptsRow ? Number(JSON.parse(attemptsRow.value)) : 0
+
+  const lockRow = db.prepare("SELECT value FROM auth WHERE key = 'lockedUntil'").get() as { value: string } | undefined
+  const lockedUntil = lockRow ? Number(JSON.parse(lockRow.value)) : 0
+
   const sessionRows = db.prepare('SELECT token, expiresAt FROM sessions').all() as Array<{ token: string; expiresAt: number }>
   const sessions: Record<string, number> = {}
   for (const s of sessionRows) {
     sessions[s.token] = s.expiresAt
   }
 
-  return { passwordHash, sessions }
+  return { passwordHash, sessions, loginAttempts, lockedUntil }
 }
 
 function writeAuth(data: AuthData): void {
   db.transaction(() => {
     db.prepare('INSERT OR REPLACE INTO auth (key, value) VALUES (?, ?)').run('passwordHash', JSON.stringify(data.passwordHash))
+    db.prepare('INSERT OR REPLACE INTO auth (key, value) VALUES (?, ?)').run('loginAttempts', JSON.stringify(data.loginAttempts ?? 0))
+    db.prepare('INSERT OR REPLACE INTO auth (key, value) VALUES (?, ?)').run('lockedUntil', JSON.stringify(data.lockedUntil ?? 0))
 
     // Clean expired sessions and update
     db.prepare('DELETE FROM sessions WHERE expiresAt < ?').run(Date.now())

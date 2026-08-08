@@ -1,71 +1,71 @@
-# ²¿ÊğÖ¸ÄÏ
+# éƒ¨ç½²æŒ‡å—
 
-## ¿ìËÙ²¿Êğ£¨Windows ·şÎñÆ÷£©
+## å¿«é€Ÿéƒ¨ç½²ï¼ˆWindows æœåŠ¡å™¨ï¼‰
 
-### 1. °²×°±ØÒªÈí¼ş
+### 1. å®‰è£…å¿…è¦è½¯ä»¶
 
 `ash
-# °²×° Node.js£¨Èç¹ûÃ»ÓĞ£©
+# å®‰è£… Node.jsï¼ˆå¦‚æœæ²¡æœ‰ï¼‰
 winget install OpenJS.NodeJS.LTS
 
-# °²×° PM2£¨½ø³Ì¹ÜÀíÆ÷£©
+# å®‰è£… PM2ï¼ˆè¿›ç¨‹ç®¡ç†å™¨ï¼‰
 npm install -g pm2
 
-# °²×° tsx£¨TypeScript ÔËĞĞÊ±£©
+# å®‰è£… tsxï¼ˆTypeScript è¿è¡Œæ—¶ï¼‰
 npm install -g tsx
 `
 
-### 2. ¿ËÂ¡ÏîÄ¿
+### 2. å…‹éš†é¡¹ç›®
 
 `ash
 git clone git@github.com:ramberlee/my-blog.git
 cd my-blog
 `
 
-### 3. °²×°ÒÀÀµ²¢¹¹½¨
+### 3. å®‰è£…ä¾èµ–å¹¶æ„å»º
 
 `ash
 npm install
 npm run build
 `
 
-### 4. Æô¶¯·şÎñ
+### 4. å¯åŠ¨æœåŠ¡
 
 `ash
-# Ê¹ÓÃ PM2 Æô¶¯
+# ä½¿ç”¨ PM2 å¯åŠ¨
 pm2 start server/index.ts --name blog
 
-# ±£´æ PM2 ÅäÖÃ
+# ä¿å­˜ PM2 é…ç½®
 pm2 save
 pm2 startup
 `
 
-### 5. ·ÃÎÊ²©¿Í
+### 5. è®¿é—®åšå®¢
 
-- Ç°Ì¨£ºhttp://your-server:3001
-- ºóÌ¨£ºhttp://your-server:3001/admin
-- Ä¬ÈÏÃÜÂë£ºadmin123
+- å‰å°ï¼šhttp://your-server:3001
+- åå°ï¼šhttp://your-server:3001/admin
+- é»˜è®¤å¯†ç ï¼šadmin123
 
 ---
 
-## ¸üĞÂ²¿Êğ
+## æ›´æ–°éƒ¨ç½²
 
 `ash
-# À­È¡×îĞÂ´úÂë
+# æ‹‰å–æœ€æ–°ä»£ç 
 git pull
 
-# ÖØĞÂ¹¹½¨
+# é‡æ–°æ„å»º
 npm run build
 
-# ÖØÆô·şÎñ
+# é‡å¯æœåŠ¡
 pm2 restart blog
 `
 
 ---
 
-## »·¾³±äÁ¿
+## ç¯å¢ƒå˜é‡
 
-´´½¨ .env ÎÄ¼ş£º
+åˆ›å»º .env æ–‡ä»¶ï¼š
 
 `env
 NODE_ENV=production
@@ -74,40 +74,40 @@ PORT=3001
 
 ---
 
-## ÅäÖÃÓòÃû
+## é…ç½®åŸŸå
 
-### 1. ¹ºÂòÓòÃû
+### 1. è´­ä¹°åŸŸå
 
-ÔÚÒÔÏÂÆ½Ì¨¹ºÂòÓòÃû£º
-- °¢ÀïÔÆ
-- ÌÚÑ¶ÔÆ
+åœ¨ä»¥ä¸‹å¹³å°è´­ä¹°åŸŸåï¼š
+- é˜¿é‡Œäº‘
+- è…¾è®¯äº‘
 - Cloudflare
 
-### 2. ÅäÖÃ DNS
+### 2. é…ç½® DNS
 
-ÔÚÓòÃû¹ÜÀíºóÌ¨Ìí¼Ó A ¼ÇÂ¼£º
+åœ¨åŸŸåç®¡ç†åå°æ·»åŠ  A è®°å½•ï¼š
 
-| Ö÷»ú¼ÇÂ¼ | ¼ÇÂ¼ÀàĞÍ | ¼ÇÂ¼Öµ | TTL |
+| ä¸»æœºè®°å½• | è®°å½•ç±»å‹ | è®°å½•å€¼ | TTL |
 |----------|----------|--------|-----|
-| @ | A | ÄãµÄ·şÎñÆ÷ IP | 600 |
-| www | A | ÄãµÄ·şÎñÆ÷ IP | 600 |
+| @ | A | ä½ çš„æœåŠ¡å™¨ IP | 600 |
+| www | A | ä½ çš„æœåŠ¡å™¨ IP | 600 |
 
-### 3. °²×° Nginx
+### 3. å®‰è£… Nginx
 
 `ash
 sudo apt update
 sudo apt install nginx -y
 `
 
-### 4. ÅäÖÃ Nginx
+### 4. é…ç½® Nginx
 
-´´½¨ÅäÖÃÎÄ¼ş£º
+åˆ›å»ºé…ç½®æ–‡ä»¶ï¼š
 
 `ash
 sudo nano /etc/nginx/sites-available/blog
 `
 
-Ìí¼ÓÒÔÏÂÄÚÈİ£º
+æ·»åŠ ä»¥ä¸‹å†…å®¹ï¼š
 
 `
 ginx
@@ -128,7 +128,7 @@ server {
 }
 `
 
-### 5. ÆôÓÃÅäÖÃ
+### 5. å¯ç”¨é…ç½®
 
 `ash
 sudo ln -s /etc/nginx/sites-available/blog /etc/nginx/sites-enabled/
@@ -136,7 +136,7 @@ sudo nginx -t
 sudo systemctl restart nginx
 `
 
-### 6. °²×° SSL£¨Let's Encrypt£©
+### 6. å®‰è£… SSLï¼ˆLet's Encryptï¼‰
 
 `ash
 sudo apt install certbot python3-certbot-nginx -y
@@ -146,12 +146,12 @@ sudo certbot renew --dry-run
 
 ---
 
-## ¹ÊÕÏÅÅ²é
+## æ•…éšœæ’æŸ¥
 
 `ash
-# Node.js ÈÕÖ¾
+# Node.js æ—¥å¿—
 pm2 logs blog
 
-# Nginx ÈÕÖ¾
+# Nginx æ—¥å¿—
 sudo tail -f /var/log/nginx/error.log
 `

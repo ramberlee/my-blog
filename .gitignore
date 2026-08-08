@@ -24,6 +24,7 @@ dist-ssr
 *.sw?
 
 # Runtime data
+data/
 server/data/
 
 # Environment variables

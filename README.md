@@ -6,217 +6,217 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-4.3.3-38bdf8.svg)](https://tailwindcss.com/)
 [![Hono](https://img.shields.io/badge/Hono-4.13-ff6b35.svg)](https://hono.dev/)
 
-È«Õ»¸öÈË²©¿ÍÏµÍ³¡£Ç°¶Ë»ùÓÚ React 19 + Vite + Tailwind CSS 4£¬ºó¶ËÊ¹ÓÃ Hono Ìá¹© RESTful API£¬Êı¾İÊ¹ÓÃ SQLite ³Ö¾Ã»¯´æ´¢¡£
+å…¨æ ˆä¸ªäººåšå®¢ç³»ç»Ÿã€‚å‰ç«¯åŸºäº React 19 + Vite + Tailwind CSS 4ï¼Œåç«¯ä½¿ç”¨ Hono æä¾› RESTful APIï¼Œæ•°æ®ä½¿ç”¨ SQLite æŒä¹…åŒ–å­˜å‚¨ã€‚
 
-## ¹¦ÄÜÌØĞÔ
+## åŠŸèƒ½ç‰¹æ€§
 
-### Ç°Ì¨
-- ÏìÓ¦Ê½Éè¼Æ ¡¤ ÉîÉ«/Ç³É«Ö÷ÌâÇĞ»» ¡¤ ÎÄÕÂÁĞ±íÓëÏêÇé ¡¤ ¹ØÓÚÒ³Ãæ ¡¤ 404 Ò³Ãæ
-- SEO ÓÅ»¯£¨react-helmet-async£©¡¤ RSS ¶©ÔÄ ¡¤ Sitemap ¡¤ ÎŞÕÏ°­Ö§³Ö
-- Í¼Æ¬ÀÁ¼ÓÔØ ¡¤ ´úÂë¸ßÁÁ£¨highlight.js£©¡¤ ÔÄ¶Á½ø¶ÈÌõ ¡¤ Éç½»·ÖÏí
+### å‰å°
+- å“åº”å¼è®¾è®¡ Â· æ·±è‰²/æµ…è‰²ä¸»é¢˜åˆ‡æ¢ Â· æ–‡ç« åˆ—è¡¨ä¸è¯¦æƒ… Â· å…³äºé¡µé¢ Â· 404 é¡µé¢
+- SEO ä¼˜åŒ–ï¼ˆreact-helmet-asyncï¼‰Â· RSS è®¢é˜… Â· Sitemap Â· æ— éšœç¢æ”¯æŒ
+- å›¾ç‰‡æ‡’åŠ è½½ Â· ä»£ç é«˜äº®ï¼ˆhighlight.jsï¼‰Â· é˜…è¯»è¿›åº¦æ¡ Â· ç¤¾äº¤åˆ†äº«
 
-### ºóÌ¨¹ÜÀí
-- Êı¾İÍ³¼ÆÒÇ±íÅÌ ¡¤ ÎÄÕÂ CRUD ¡¤ Markdown ±à¼­Æ÷£¨¹¤¾ßÀ¸ + ×Ô¶¯±£´æ + ×ÖÊıÍ³¼Æ£©
-- ÍøÕ¾ÅäÖÃ¹ÜÀí ¡¤ Í·Ïñ/Í¼Æ¬ÉÏ´«£¨Sharp Ñ¹Ëõ£©
+### åå°ç®¡ç†
+- æ•°æ®ç»Ÿè®¡ä»ªè¡¨ç›˜ Â· æ–‡ç«  CRUD Â· Markdown ç¼–è¾‘å™¨ï¼ˆå·¥å…·æ  + è‡ªåŠ¨ä¿å­˜ + å­—æ•°ç»Ÿè®¡ï¼‰
+- ç½‘ç«™é…ç½®ç®¡ç† Â· å¤´åƒ/å›¾ç‰‡ä¸Šä¼ ï¼ˆSharp å‹ç¼©ï¼‰
 
-### ÏµÍ³¹¦ÄÜ
-- SHA-256 ÈÏÖ¤ + Session ¡¤ ËÙÂÊÏŞÖÆ ¡¤ CSRF ·À»¤ ¡¤ ÊäÈëÑéÖ¤
-- ´íÎó±ß½ç ¡¤ Toast Í¨Öª ¡¤ ´íÎóÈÕÖ¾ ¡¤ ½¡¿µ¼ì²é ¡¤ »·¾³±äÁ¿ÅäÖÃ
-- 55+ ¸ö×Ô¶¯»¯²âÊÔ ¡¤ GitHub Actions CI/CD
+### ç³»ç»ŸåŠŸèƒ½
+- SHA-256 è®¤è¯ + Session Â· é€Ÿç‡é™åˆ¶ Â· CSRF é˜²æŠ¤ Â· è¾“å…¥éªŒè¯
+- é”™è¯¯è¾¹ç•Œ Â· Toast é€šçŸ¥ Â· é”™è¯¯æ—¥å¿— Â· å¥åº·æ£€æŸ¥ Â· ç¯å¢ƒå˜é‡é…ç½®
+- 55+ ä¸ªè‡ªåŠ¨åŒ–æµ‹è¯• Â· GitHub Actions CI/CD
 
-## ¼¼ÊõÕ»
+## æŠ€æœ¯æ ˆ
 
-| ·ÖÀà | ¼¼Êõ | ÓÃÍ¾ |
+| åˆ†ç±» | æŠ€æœ¯ | ç”¨é€” |
 |------|------|------|
-| Ç°¶Ë¿ò¼Ü | React 19 | UI ¿ò¼Ü |
-| ÀàĞÍÏµÍ³ | TypeScript 6.0 | ÀàĞÍ°²È« |
-| ¹¹½¨¹¤¾ß | Vite 8.2 | ¿ª·¢ + Éú²ú¹¹½¨ |
-| CSS | Tailwind CSS 4.3 | Ô­×Ó»¯ÑùÊ½ |
-| Â·ÓÉ | React Router 7 | SPA Â·ÓÉ |
-| ºó¶Ë | Hono 4.13 | REST API |
-| Êı¾İ¿â | better-sqlite3 | SQLite ´æ´¢ |
-| Markdown | marked + DOMPurify | ½âÎö + XSS ·À»¤ |
-| ´úÂë¸ßÁÁ | highlight.js | Óï·¨¸ßÁÁ |
-| Í¼Æ¬´¦Àí | Sharp | ÉÏ´«Ñ¹Ëõ |
-| SEO | react-helmet-async | ¶¯Ì¬ meta |
-| ²âÊÔ | Vitest + RTL | Ç°ºó¶Ë²âÊÔ |
+| å‰ç«¯æ¡†æ¶ | React 19 | UI æ¡†æ¶ |
+| ç±»å‹ç³»ç»Ÿ | TypeScript 6.0 | ç±»å‹å®‰å…¨ |
+| æ„å»ºå·¥å…· | Vite 8.2 | å¼€å‘ + ç”Ÿäº§æ„å»º |
+| CSS | Tailwind CSS 4.3 | åŸå­åŒ–æ ·å¼ |
+| è·¯ç”± | React Router 7 | SPA è·¯ç”± |
+| åç«¯ | Hono 4.13 | REST API |
+| æ•°æ®åº“ | better-sqlite3 | SQLite å­˜å‚¨ |
+| Markdown | marked + DOMPurify | è§£æ + XSS é˜²æŠ¤ |
+| ä»£ç é«˜äº® | highlight.js | è¯­æ³•é«˜äº® |
+| å›¾ç‰‡å¤„ç† | Sharp | ä¸Šä¼ å‹ç¼© |
+| SEO | react-helmet-async | åŠ¨æ€ meta |
+| æµ‹è¯• | Vitest + RTL | å‰åç«¯æµ‹è¯• |
 
-## ¿ìËÙ¿ªÊ¼
+## å¿«é€Ÿå¼€å§‹
 
 ```bash
-# »·¾³ÒªÇó: Node.js >= 18
+# ç¯å¢ƒè¦æ±‚: Node.js >= 18
 npm install
 
-# Í¬Ê±Æô¶¯Ç°¶ËºÍºó¶Ë
+# åŒæ—¶å¯åŠ¨å‰ç«¯å’Œåç«¯
 npm run dev:full
 
-# »ò·Ö±ğÆô¶¯
-npm run server   # ºó¶Ë :3001
-npm run dev      # Ç°¶Ë :5173
+# æˆ–åˆ†åˆ«å¯åŠ¨
+npm run server   # åç«¯ :3001
+npm run dev      # å‰ç«¯ :5173
 
-# Éú²ú¹¹½¨
+# ç”Ÿäº§æ„å»º
 npm run build
 npm run server
 
-# ÔËĞĞ²âÊÔ
+# è¿è¡Œæµ‹è¯•
 npm run test
 ```
 
-Ä¬ÈÏµÇÂ¼µØÖ· `/login`£¬ÃÜÂë `admin123`¡£
+é»˜è®¤ç™»å½•åœ°å€ `/login`ï¼Œå¯†ç  `admin123`ã€‚
 
-## API ¶Ëµã
+## API ç«¯ç‚¹
 
-### ÎÄÕÂ
-| ·½·¨ | Â·¾¶ | ËµÃ÷ |
+### æ–‡ç« 
+| æ–¹æ³• | è·¯å¾„ | è¯´æ˜ |
 |------|------|------|
-| GET | /api/articles | »ñÈ¡ÎÄÕÂÁĞ±í |
-| GET | /api/articles/:id | »ñÈ¡µ¥ÆªÎÄÕÂ |
-| POST | /api/articles | ´´½¨ÎÄÕÂ |
-| PUT | /api/articles/:id | ¸üĞÂÎÄÕÂ |
-| DELETE | /api/articles/:id | É¾³ıÎÄÕÂ |
-| POST | /api/articles/import | ÅúÁ¿µ¼Èë |
+| GET | /api/articles | è·å–æ–‡ç« åˆ—è¡¨ |
+| GET | /api/articles/:id | è·å–å•ç¯‡æ–‡ç«  |
+| POST | /api/articles | åˆ›å»ºæ–‡ç«  |
+| PUT | /api/articles/:id | æ›´æ–°æ–‡ç«  |
+| DELETE | /api/articles/:id | åˆ é™¤æ–‡ç«  |
+| POST | /api/articles/import | æ‰¹é‡å¯¼å…¥ |
 
-### ÈÏÖ¤
-| ·½·¨ | Â·¾¶ | ËµÃ÷ |
+### è®¤è¯
+| æ–¹æ³• | è·¯å¾„ | è¯´æ˜ |
 |------|------|------|
-| POST | /api/auth/login | µÇÂ¼ |
-| POST | /api/auth/verify | ÑéÖ¤ token |
-| POST | /api/auth/logout | ÍË³ö |
-| POST | /api/auth/change-password | ĞŞ¸ÄÃÜÂë |
+| POST | /api/auth/login | ç™»å½• |
+| POST | /api/auth/verify | éªŒè¯ token |
+| POST | /api/auth/logout | é€€å‡º |
+| POST | /api/auth/change-password | ä¿®æ”¹å¯†ç  |
 
-### ÅäÖÃ
-| ·½·¨ | Â·¾¶ | ËµÃ÷ |
+### é…ç½®
+| æ–¹æ³• | è·¯å¾„ | è¯´æ˜ |
 |------|------|------|
-| GET | /api/config | »ñÈ¡ÅäÖÃ |
-| PUT | /api/config | ¸üĞÂÅäÖÃ |
-| POST | /api/config/reset | ÖØÖÃÅäÖÃ |
+| GET | /api/config | è·å–é…ç½® |
+| PUT | /api/config | æ›´æ–°é…ç½® |
+| POST | /api/config/reset | é‡ç½®é…ç½® |
 
-### ÆäËû
-| ·½·¨ | Â·¾¶ | ËµÃ÷ |
+### å…¶ä»–
+| æ–¹æ³• | è·¯å¾„ | è¯´æ˜ |
 |------|------|------|
-| GET | /api/analytics | Í³¼ÆÊı¾İ |
-| POST | /api/analytics/track | ¼ÇÂ¼·ÃÎÊ |
-| POST | /api/upload/image | Í¼Æ¬ÉÏ´« |
+| GET | /api/analytics | ç»Ÿè®¡æ•°æ® |
+| POST | /api/analytics/track | è®°å½•è®¿é—® |
+| POST | /api/upload/image | å›¾ç‰‡ä¸Šä¼  |
 | GET | /api/rss | RSS Feed |
 | GET | /api/sitemap | Sitemap |
-| GET | /api/health | ½¡¿µ¼ì²é |
+| GET | /api/health | å¥åº·æ£€æŸ¥ |
 
-## ÏîÄ¿½á¹¹
+## é¡¹ç›®ç»“æ„
 
 ```
 my-blog/
-©À©¤©¤ server/                    # Hono ºó¶Ë
-©¦   ©À©¤©¤ routes/                #   API Â·ÓÉ
-©¦   ©¦   ©À©¤©¤ articles.ts        #     ÎÄÕÂ CRUD
-©¦   ©¦   ©À©¤©¤ auth.ts            #     ÈÏÖ¤
-©¦   ©¦   ©À©¤©¤ config.ts          #     ÅäÖÃ
-©¦   ©¦   ©À©¤©¤ analytics.ts       #     Í³¼Æ
-©¦   ©¦   ©À©¤©¤ upload.ts          #     Í¼Æ¬ÉÏ´«
-©¦   ©¦   ©À©¤©¤ rss.ts             #     RSS
-©¦   ©¦   ©¸©¤©¤ sitemap.ts         #     Sitemap
-©¦   ©À©¤©¤ middleware/             #   ÖĞ¼ä¼ş
-©¦   ©¦   ©¸©¤©¤ csrf.ts            #     CSRF ·À»¤
-©¦   ©À©¤©¤ __tests__/             #   ºó¶Ë²âÊÔ
-©¦   ©À©¤©¤ uploads/               #   ÉÏ´«µÄÍ¼Æ¬
-©¦   ©À©¤©¤ data/                  #   SQLite Êı¾İ¿â + JSON ±¸·İ
-©¦   ©À©¤©¤ index.ts               #   ·şÎñÈë¿Ú
-©¦   ©À©¤©¤ db.ts                  #   SQLite Êı¾İ¿â³õÊ¼»¯
-©¦   ©À©¤©¤ logger.ts              #   ´íÎóÈÕÖ¾
-©¦   ©¸©¤©¤ storage.ts             #   ´æ´¢²ã (SQLite)
-©À©¤©¤ src/                       # React Ç°¶Ë
-©¦   ©À©¤©¤ components/            #   ×é¼ş
-©¦   ©¦   ©À©¤©¤ home/              #     Ê×Ò³×Ó×é¼ş
-©¦   ©¦   ©¦   ©À©¤©¤ HomeNav.tsx    #       µ¼º½
-©¦   ©¦   ©¦   ©À©¤©¤ HeroSection.tsx#       Ó¢ĞÛÇø
-©¦   ©¦   ©¦   ©À©¤©¤ FeaturedArticles.tsx
-©¦   ©¦   ©¦   ©À©¤©¤ TagMarquee.tsx #       ±êÇ©¹ö¶¯
-©¦   ©¦   ©¦   ©À©¤©¤ StatsRow.tsx   #       Í³¼ÆĞĞ
-©¦   ©¦   ©¦   ©¸©¤©¤ HomeFooter.tsx #       Ò³½Å
-©¦   ©¦   ©À©¤©¤ LazyImage.tsx      #     ÀÁ¼ÓÔØÍ¼Æ¬
-©¦   ©¦   ©À©¤©¤ ReadingProgress.tsx#     ÔÄ¶Á½ø¶ÈÌõ
-©¦   ©¦   ©À©¤©¤ MarkdownToolbar.tsx#     ±à¼­Æ÷¹¤¾ßÀ¸
-©¦   ©¦   ©À©¤©¤ SEO.tsx            #     SEO meta
-©¦   ©¦   ©À©¤©¤ ErrorBoundary.tsx  #     ´íÎó±ß½ç
-©¦   ©¦   ©À©¤©¤ Toast.tsx          #     Í¨Öª
-©¦   ©¦   ©À©¤©¤ ThemeProvider.tsx   #     Ö÷Ìâ¹ÜÀí
-©¦   ©¦   ©À©¤©¤ ProtectedRoute.tsx #     Â·ÓÉÊØÎÀ
-©¦   ©¦   ©¸©¤©¤ ...                #     ¹ÜÀí×é¼ş
-©¦   ©À©¤©¤ pages/                 #   Ò³Ãæ
-©¦   ©À©¤©¤ hooks/                 #   ×Ô¶¨Òå Hooks
-©¦   ©À©¤©¤ utils/                 #   ¹¤¾ßº¯Êı
-©¦   ©À©¤©¤ contexts/              #   Context
-©¦   ©À©¤©¤ __tests__/             #   Ç°¶Ë²âÊÔ
-©¦   ©¸©¤©¤ config/                #   ÅäÖÃ
-©À©¤©¤ .github/workflows/ci.yml   # CI/CD
-©À©¤©¤ .env.example               # »·¾³±äÁ¿Ä£°å
-©À©¤©¤ AGENTS.md                  # Agent ÎÄµµ¹æ·¶
-©¸©¤©¤ index.html                 # HTML Èë¿Ú
+â”œâ”€â”€ server/                    # Hono åç«¯
+â”‚   â”œâ”€â”€ routes/                #   API è·¯ç”±
+â”‚   â”‚   â”œâ”€â”€ articles.ts        #     æ–‡ç«  CRUD
+â”‚   â”‚   â”œâ”€â”€ auth.ts            #     è®¤è¯
+â”‚   â”‚   â”œâ”€â”€ config.ts          #     é…ç½®
+â”‚   â”‚   â”œâ”€â”€ analytics.ts       #     ç»Ÿè®¡
+â”‚   â”‚   â”œâ”€â”€ upload.ts          #     å›¾ç‰‡ä¸Šä¼ 
+â”‚   â”‚   â”œâ”€â”€ rss.ts             #     RSS
+â”‚   â”‚   â””â”€â”€ sitemap.ts         #     Sitemap
+â”‚   â”œâ”€â”€ middleware/             #   ä¸­é—´ä»¶
+â”‚   â”‚   â””â”€â”€ csrf.ts            #     CSRF é˜²æŠ¤
+â”‚   â”œâ”€â”€ __tests__/             #   åç«¯æµ‹è¯•
+â”‚   â”œâ”€â”€ uploads/               #   ä¸Šä¼ çš„å›¾ç‰‡
+â”‚   â”œâ”€â”€ data/                  #   SQLite æ•°æ®åº“ + JSON å¤‡ä»½
+â”‚   â”œâ”€â”€ index.ts               #   æœåŠ¡å…¥å£
+â”‚   â”œâ”€â”€ db.ts                  #   SQLite æ•°æ®åº“åˆå§‹åŒ–
+â”‚   â”œâ”€â”€ logger.ts              #   é”™è¯¯æ—¥å¿—
+â”‚   â””â”€â”€ storage.ts             #   å­˜å‚¨å±‚ (SQLite)
+â”œâ”€â”€ src/                       # React å‰ç«¯
+â”‚   â”œâ”€â”€ components/            #   ç»„ä»¶
+â”‚   â”‚   â”œâ”€â”€ home/              #     é¦–é¡µå­ç»„ä»¶
+â”‚   â”‚   â”‚   â”œâ”€â”€ HomeNav.tsx    #       å¯¼èˆª
+â”‚   â”‚   â”‚   â”œâ”€â”€ HeroSection.tsx#       è‹±é›„åŒº
+â”‚   â”‚   â”‚   â”œâ”€â”€ FeaturedArticles.tsx
+â”‚   â”‚   â”‚   â”œâ”€â”€ TagMarquee.tsx #       æ ‡ç­¾æ»šåŠ¨
+â”‚   â”‚   â”‚   â”œâ”€â”€ StatsRow.tsx   #       ç»Ÿè®¡è¡Œ
+â”‚   â”‚   â”‚   â””â”€â”€ HomeFooter.tsx #       é¡µè„š
+â”‚   â”‚   â”œâ”€â”€ LazyImage.tsx      #     æ‡’åŠ è½½å›¾ç‰‡
+â”‚   â”‚   â”œâ”€â”€ ReadingProgress.tsx#     é˜…è¯»è¿›åº¦æ¡
+â”‚   â”‚   â”œâ”€â”€ MarkdownToolbar.tsx#     ç¼–è¾‘å™¨å·¥å…·æ 
+â”‚   â”‚   â”œâ”€â”€ SEO.tsx            #     SEO meta
+â”‚   â”‚   â”œâ”€â”€ ErrorBoundary.tsx  #     é”™è¯¯è¾¹ç•Œ
+â”‚   â”‚   â”œâ”€â”€ Toast.tsx          #     é€šçŸ¥
+â”‚   â”‚   â”œâ”€â”€ ThemeProvider.tsx   #     ä¸»é¢˜ç®¡ç†
+â”‚   â”‚   â”œâ”€â”€ ProtectedRoute.tsx #     è·¯ç”±å®ˆå«
+â”‚   â”‚   â””â”€â”€ ...                #     ç®¡ç†ç»„ä»¶
+â”‚   â”œâ”€â”€ pages/                 #   é¡µé¢
+â”‚   â”œâ”€â”€ hooks/                 #   è‡ªå®šä¹‰ Hooks
+â”‚   â”œâ”€â”€ utils/                 #   å·¥å…·å‡½æ•°
+â”‚   â”œâ”€â”€ contexts/              #   Context
+â”‚   â”œâ”€â”€ __tests__/             #   å‰ç«¯æµ‹è¯•
+â”‚   â””â”€â”€ config/                #   é…ç½®
+â”œâ”€â”€ .github/workflows/ci.yml   # CI/CD
+â”œâ”€â”€ .env.example               # ç¯å¢ƒå˜é‡æ¨¡æ¿
+â”œâ”€â”€ AGENTS.md                  # Agent æ–‡æ¡£è§„èŒƒ
+â””â”€â”€ index.html                 # HTML å…¥å£
 ```
 
-## Â·ÓÉ½á¹¹
+## è·¯ç”±ç»“æ„
 
-| Â·¾¶ | Ò³Ãæ | È¨ÏŞ |
+| è·¯å¾„ | é¡µé¢ | æƒé™ |
 |------|------|------|
-| / | Ê×Ò³ | ¹«¿ª |
-| /articles | ÎÄÕÂÁĞ±í | ¹«¿ª |
-| /article/:id | ÎÄÕÂÏêÇé | ¹«¿ª |
-| /about | ¹ØÓÚ | ¹«¿ª |
-| /login | µÇÂ¼ | ¹«¿ª |
-| /admin | ºóÌ¨¹ÜÀí | ĞèµÇÂ¼ |
-| * | 404 | ¹«¿ª |
+| / | é¦–é¡µ | å…¬å¼€ |
+| /articles | æ–‡ç« åˆ—è¡¨ | å…¬å¼€ |
+| /article/:id | æ–‡ç« è¯¦æƒ… | å…¬å¼€ |
+| /about | å…³äº | å…¬å¼€ |
+| /login | ç™»å½• | å…¬å¼€ |
+| /admin | åå°ç®¡ç† | éœ€ç™»å½• |
+| * | 404 | å…¬å¼€ |
 
-## ²âÊÔ
+## æµ‹è¯•
 
 ```bash
-npm run test        # ÔËĞĞÈ«²¿²âÊÔ
-npm run test:watch  # Watch Ä£Ê½
+npm run test        # è¿è¡Œå…¨éƒ¨æµ‹è¯•
+npm run test:watch  # Watch æ¨¡å¼
 ```
 
-¸²¸Ç·¶Î§£ºAuthContext ¡¤ ContentManager ¡¤ ConfigManager ¡¤ Articles ¡¤ Auth ¡¤ Config ¡¤ Analytics ¡¤ RateLimit ¡¤ RSS ¡¤ Sitemap ¡¤ Health
+è¦†ç›–èŒƒå›´ï¼šAuthContext Â· ContentManager Â· ConfigManager Â· Articles Â· Auth Â· Config Â· Analytics Â· RateLimit Â· RSS Â· Sitemap Â· Health
 
-## ÈÏÖ¤ÏµÍ³
+## è®¤è¯ç³»ç»Ÿ
 
-- SHA-256 ÃÜÂë¹şÏ£ + ÑÎÖµ
-- 24 Ğ¡Ê± Session Token
-- ËÙÂÊÏŞÖÆ£¨5´Î/·ÖÖÓ/IP£©
-- CSRF ·À»¤
-- ProtectedRoute Â·ÓÉÊØÎÀ
+- SHA-256 å¯†ç å“ˆå¸Œ + ç›å€¼
+- 24 å°æ—¶ Session Token
+- é€Ÿç‡é™åˆ¶ï¼ˆ5æ¬¡/åˆ†é’Ÿ/IPï¼‰
+- CSRF é˜²æŠ¤
+- ProtectedRoute è·¯ç”±å®ˆå«
 
-## ²¿Êğ
+## éƒ¨ç½²
 
 ```bash
-# Node.js Ö±½Ó²¿Êğ
+# Node.js ç›´æ¥éƒ¨ç½²
 npm run build
 PORT=3001 npm run server
 
-# ·ÖÀë²¿Êğ
-# Ç°¶Ë dist/ ¡ú Vercel / Netlify
-# ºó¶Ë server/ ¡ú ¶ÀÁ¢ Node.js ·şÎñ
+# åˆ†ç¦»éƒ¨ç½²
+# å‰ç«¯ dist/ â†’ Vercel / Netlify
+# åç«¯ server/ â†’ ç‹¬ç«‹ Node.js æœåŠ¡
 ```
 
-## »·¾³±äÁ¿
+## ç¯å¢ƒå˜é‡
 
-| ±äÁ¿ | Ä¬ÈÏÖµ | ËµÃ÷ |
+| å˜é‡ | é»˜è®¤å€¼ | è¯´æ˜ |
 |------|--------|------|
-| PORT | 3001 | ·şÎñ¶Ë¿Ú |
-| NODE_ENV | development | ÔËĞĞ»·¾³ |
-| SESSION_EXPIRY_HOURS | 24 | Session ÓĞĞ§ÆÚ |
-| MAX_UPLOAD_SIZE_MB | 5 | ÉÏ´«´óĞ¡ÏŞÖÆ |
-| IMAGE_MAX_WIDTH | 1200 | Ñ¹Ëõ×î´ó¿í¶È |
-| IMAGE_QUALITY | 80 | Ñ¹ËõÖÊÁ¿ |
+| PORT | 3001 | æœåŠ¡ç«¯å£ |
+| NODE_ENV | development | è¿è¡Œç¯å¢ƒ |
+| SESSION_EXPIRY_HOURS | 24 | Session æœ‰æ•ˆæœŸ |
+| MAX_UPLOAD_SIZE_MB | 5 | ä¸Šä¼ å¤§å°é™åˆ¶ |
+| IMAGE_MAX_WIDTH | 1200 | å‹ç¼©æœ€å¤§å®½åº¦ |
+| IMAGE_QUALITY | 80 | å‹ç¼©è´¨é‡ |
 
-## ¹±Ï×
+## è´¡çŒ®
 
-1. Fork ±¾²Ö¿â
-2. ´´½¨¹¦ÄÜ·ÖÖ§ (`git checkout -b feature/xxx`)
-3. Ìá½»¸ü¸Ä (`git commit -m 'feat: xxx'`)
-4. ÍÆËÍ (`git push origin feature/xxx`)
-5. ´´½¨ Pull Request
+1. Fork æœ¬ä»“åº“
+2. åˆ›å»ºåŠŸèƒ½åˆ†æ”¯ (`git checkout -b feature/xxx`)
+3. æäº¤æ›´æ”¹ (`git commit -m 'feat: xxx'`)
+4. æ¨é€ (`git push origin feature/xxx`)
+5. åˆ›å»º Pull Request
 
-## Ğí¿ÉÖ¤
+## è®¸å¯è¯
 
 MIT
 
-## ÖÂĞ»
+## è‡´è°¢
 
-[React](https://react.dev/) ¡¤ [Vite](https://vitejs.dev/) ¡¤ [Tailwind CSS](https://tailwindcss.com/) ¡¤ [Hono](https://hono.dev/) ¡¤ [React Router](https://reactrouter.com/)
+[React](https://react.dev/) Â· [Vite](https://vitejs.dev/) Â· [Tailwind CSS](https://tailwindcss.com/) Â· [Hono](https://hono.dev/) Â· [React Router](https://reactrouter.com/)
