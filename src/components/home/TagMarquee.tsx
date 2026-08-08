@@ -9,7 +9,7 @@ const TagMarquee: React.FC = () => {
       aria-label="标签滚动条"
       style={{ padding: '40px 0', borderTop: '1px solid var(--c-border)', borderBottom: '1px solid var(--c-border)', overflow: 'hidden' }}
     >
-      <div className="marquee-track" style={{ gap: 24 }} role="list">
+      <div className="marquee-track" role="list">
         {[...tags, ...tags].map((tag, i) => (
           <Link
             key={`${tag}-${i}`}
@@ -28,6 +28,7 @@ const TagMarquee: React.FC = () => {
               whiteSpace: 'nowrap',
               transition: 'all 0.25s',
               flexShrink: 0,
+              marginRight: 24,
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.borderColor = 'var(--c-accent-border)'
