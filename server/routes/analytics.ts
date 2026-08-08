@@ -10,16 +10,9 @@ interface AnalyticsData {
 const FILE = 'analytics.json'
 
 const DEFAULT: AnalyticsData = {
-  totalVisitors: 1234, todayVisitors: 56, pageViews: 5678,
-  topPages: [
-    { page: '如何构建个人博客', views: 234 },
-    { page: 'React 19 新特性解析', views: 189 },
-    { page: '我的2024年计划', views: 156 },
-  ],
-  referrers: [
-    { source: 'Google', count: 456 }, { source: 'Twitter', count: 234 },
-    { source: '直接访问', count: 123 }, { source: '微博', count: 89 },
-  ],
+  totalVisitors: 0, todayVisitors: 0, pageViews: 0,
+  topPages: [],
+  referrers: [],
 }
 
 const analytics = new Hono()
