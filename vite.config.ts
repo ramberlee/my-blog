@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { VitePWA } from 'vite-plugin-pwa'
+import { copyFileSync } from 'fs'
 
 const basePath = (process.env.VITE_BASE_PATH || '/').replace(/\/?$/, '/')
 
@@ -37,7 +38,14 @@ export default defineConfig({
           }
         ]
       }
-    })
+    }),
+    {
+      // GitHub Pages 用 404.html 兜底未知路径，让 SPA 自己处理路由
+      name: 'copy-index-to-404',
+      closeBundle() {
+        copyFileSync('dist/index.html', 'dist/404.html')
+      },
+    },
   ],
   server: {
     proxy: {

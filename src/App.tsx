@@ -16,6 +16,9 @@ const ArticlesPage = lazy(() => import('./pages/ArticlesPage'))
 const ArticleDetailPage = lazy(() => import('./pages/ArticleDetailPage'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 
+// GitHub Pages 子路径部署时，路由需要匹配 base（如 /my-blog）
+const routerBasename = import.meta.env.BASE_URL.replace(/\/$/, '') || '/'
+
 const Loading = () => (
   <div className="min-h-screen flex items-center justify-center" style={{ background: 'var(--c-bg)' }}>
     <div className="text-center">
@@ -31,7 +34,7 @@ function App() {
       <ThemeProvider>
         <ToastProvider>
           <AuthProvider>
-            <BrowserRouter>
+            <BrowserRouter basename={routerBasename}>
               <a href="#main-content" className="skip-link">Skip to content</a>
               <div className="grain" aria-hidden="true" />
               <ErrorBoundary>
