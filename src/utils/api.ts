@@ -3,6 +3,8 @@ const BASE = import.meta.env.VITE_API_BASE ?? '/api'
 async function request<T>(path: string, options?: RequestInit): Promise<T> {
   const headers: Record<string, string> = {
     'Content-Type': 'application/json',
+    // ngrok 免费版对浏览器请求的拦截警告页需要此头跳过
+    'ngrok-skip-browser-warning': 'true',
     ...((options?.headers as Record<string, string>) ?? {}),
   }
 
@@ -58,7 +60,7 @@ export const uploadApi = {
   image: async (file: File): Promise<{ url: string; thumbUrl: string; width: number; height: number }> => {
     const formData = new FormData()
     formData.append('image', file)
-    const headers: Record<string, string> = {}
+    const headers: Record<string, string> = { 'ngrok-skip-browser-warning': 'true' }
     const token = sessionStorage.getItem('csrf-token')
     if (token) headers['X-CSRF-Token'] = token
     const res = await fetch(BASE + '/upload/image', { method: 'POST', body: formData, headers })
