@@ -43,5 +43,60 @@
     "updatedAt": "2026-08-06",
     "status": "published",
     "coverImage": "https://picsum.photos/seed/plan2024/800/500"
+  },
+  {
+    "title": "Test Article Title",
+    "content": "<p>This is test content for the article that is long enough</p>",
+    "category": "技术",
+    "tags": [
+      "E2E"
+    ],
+    "status": "draft",
+    "coverImage": "",
+    "id": "1786183848799",
+    "createdAt": "2026-08-08",
+    "updatedAt": "2026-08-08"
+  },
+  {
+    "title": "E2E_1786185646439",
+    "content": "<p>E2E test content for article 1786185646439 with enough chars</p>",
+    "category": "技术",
+    "tags": [
+      "E2E",
+      "Playwright"
+    ],
+    "status": "draft",
+    "coverImage": "",
+    "id": "1786185650974",
+    "createdAt": "2026-08-08",
+    "updatedAt": "2026-08-08"
+  },
+  {
+    "title": "E2E_1786185689285",
+    "content": "<p>E2E test content for article 1786185689285 with enough chars</p>",
+    "category": "技术",
+    "tags": [
+      "E2E",
+      "Playwright"
+    ],
+    "status": "draft",
+    "coverImage": "",
+    "id": "1786185693702",
+    "createdAt": "2026-08-08",
+    "updatedAt": "2026-08-08"
+  },
+  {
+    "title": "E2E_1786185741003",
+    "content": "<p>E2E test content for article 1786185741003 with enough chars</p>",
+    "category": "技术",
+    "tags": [
+      "E2E",
+      "Playwright"
+    ],
+    "status": "draft",
+    "coverImage": "",
+    "id": "1786185745340",
+    "createdAt": "2026-08-08",
+    "updatedAt": "2026-08-08"
   }
 ]
