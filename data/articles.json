@@ -1,0 +1,47 @@
+[
+  {
+    "id": "1",
+    "title": "如何构建个人博客",
+    "content": "分享我搭建这个博客的过程和心得，从技术选型到设计实现。",
+    "category": "技术",
+    "tags": [
+      "React",
+      "TypeScript",
+      "博客"
+    ],
+    "createdAt": "2024-01-15",
+    "updatedAt": "2024-01-15",
+    "status": "published",
+    "coverImage": "https://picsum.photos/seed/blog-dev/800/500"
+  },
+  {
+    "id": "2",
+    "title": "React 19 新特性解析",
+    "content": "深入探讨React 19带来的革命性变化，包括新的编译器和性能优化。",
+    "category": "技术",
+    "tags": [
+      "React",
+      "前端",
+      "新特性"
+    ],
+    "createdAt": "2024-01-10",
+    "updatedAt": "2024-01-10",
+    "status": "published",
+    "coverImage": "https://picsum.photos/seed/react19/800/500"
+  },
+  {
+    "id": "3",
+    "title": "我的2024年计划",
+    "content": "新的一年，新的目标和期待，分享我的年度计划和展望。",
+    "category": "生活",
+    "tags": [
+      "计划",
+      "目标",
+      "新年"
+    ],
+    "createdAt": "2024-01-05",
+    "updatedAt": "2026-08-06",
+    "status": "published",
+    "coverImage": "https://picsum.photos/seed/plan2024/800/500"
+  }
+]
