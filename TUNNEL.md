@@ -191,3 +191,28 @@ VITE_API_BASE=https://your-tunnel-url/api
 `ash
 npm run build
 `
+
+---
+
+## 一键启动脚本（推荐）
+
+仓库根目录提供了两个脚本，自动完成「启动后端 + 启动 ngrok 隧道 + 更新 GitHub 部署变量 + 触发部署」：
+
+```powershell
+# 启动（后端未运行会自动拉起；隧道地址变化时自动更新变量并触发 GitHub Pages 部署）
+.\start-tunnel.ps1
+
+# 只启动服务，不触发部署
+.\start-tunnel.ps1 -SkipDeploy
+
+# 停止隧道（可选 -StopBackend 同时停止本机后端）
+.\stop-tunnel.ps1
+```
+
+脚本要求：
+
+- `gh` CLI 已登录（用于更新仓库变量和触发部署）
+- ngrok 已安装且已配置 authtoken（优先使用 `~\ngrok\ngrok.exe`，其次 winget 安装路径）
+
+注意：免费版 ngrok 每次重启隧道地址都会变，脚本检测到地址变化后会自动更新仓库变量
+`VITE_API_BASE` 并重新部署，无需手动改代码。
