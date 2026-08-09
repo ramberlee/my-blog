@@ -9,6 +9,7 @@ import { DndContext, closestCenter, PointerSensor, KeyboardSensor, TouchSensor, 
 import { SortableContext, verticalListSortingStrategy, arrayMove } from '@dnd-kit/sortable'
 import SortableArticleItem from './SortableArticleItem'
 import { useAdminShortcuts } from '../hooks/useKeyboardShortcuts'
+import { articleToMarkdown, parseArticleMarkdown, slugify } from '../utils/articleMarkdown'
 
 const DRAFT_KEY = 'blog-draft-autosave'
 const ALL_TAGS = ['React','TypeScript','JavaScript','Node.js','前端','后端','CSS','Vue','Next.js','博客','生活','旅行','摄影','设计','新特性','计划','目标','新年','技巧','思考']
@@ -204,26 +205,37 @@ const ContentManager: React.FC = () => {
     }
   }
 
-  const handleExport = () => {
-    const blob = new Blob([JSON.stringify(articles, null, 2)], { type: 'application/json' })
-    const url = URL.createObjectURL(blob); const el = document.createElement('a'); el.href = url
-    el.download = 'blog-articles-' + new Date().toISOString().split('T')[0] + '.json'; el.click()
-    URL.revokeObjectURL(url); toast('数据已导出', 'success')
+  const handleExport = async () => {
+    for (const a of articles) {
+      const blob = new Blob([articleToMarkdown(a)], { type: 'text/markdown;charset=utf-8' })
+      const url = URL.createObjectURL(blob)
+      const el = document.createElement('a')
+      el.href = url
+      el.download = `${slugify(a.title)}.md`
+      el.click()
+      URL.revokeObjectURL(url)
+      await new Promise(r => setTimeout(r, 200))
+    }
+    toast('已导出 ' + articles.length + ' 篇文章', 'success')
   }
 
   const handleImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]; if (!file) return
-    const reader = new FileReader()
-    reader.onload = async (ev) => {
+    const files = Array.from(e.target.files ?? [])
+    if (!files.length) return
+    const imported: Article[] = []
+    for (const file of files) {
       try {
-        const imported = JSON.parse(ev.target?.result as string) as Article[]
-        if (!Array.isArray(imported)) throw new Error()
-        await articlesApi.import(imported)
-        toast('已导入 ' + imported.length + ' 篇文章', 'success')
-        fetchArticles()
-      } catch { toast('导入失败，文件格式不正确', 'error') }
+        const parsed = parseArticleMarkdown(await file.text())
+        if (parsed) imported.push(parsed)
+      } catch { }
     }
-    reader.readAsText(file); e.target.value = ''
+    e.target.value = ''
+    if (!imported.length) { toast('导入失败，请选择 .md 文件', 'error'); return }
+    try {
+      await articlesApi.import(imported)
+      toast('已导入 ' + imported.length + ' 篇文章', 'success')
+      fetchArticles()
+    } catch (e: any) { toast('导入失败: ' + e.message, 'error') }
   }
 
   const addTag = (tag: string) => {
@@ -397,7 +409,7 @@ const ContentManager: React.FC = () => {
           <button onClick={handleExport} style={{ padding: '8px 14px', borderRadius: 8, background: 'var(--c-surface)', color: 'var(--c-text-muted)', fontSize: 12, fontWeight: 500, cursor: 'pointer', border: '1px solid var(--c-border)', fontFamily: 'var(--font-body)' }}>导出</button>
           <label style={{ padding: '8px 14px', borderRadius: 8, background: 'var(--c-surface)', color: 'var(--c-text-muted)', fontSize: 12, fontWeight: 500, cursor: 'pointer', border: '1px solid var(--c-border)', fontFamily: 'var(--font-body)', display: 'inline-flex', alignItems: 'center' }}>
             导入
-            <input type="file" accept=".json" onChange={handleImport} style={{ display: 'none' }} />
+            <input type="file" accept=".md" multiple onChange={handleImport} style={{ display: 'none' }} />
           </label>
         </div>
       </div>
