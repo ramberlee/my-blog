@@ -1,11 +1,12 @@
-import { lazy, Suspense } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import { HelmetProvider } from 'react-helmet-async'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
 import { ThemeProvider } from './components/ThemeProvider'
 import { ToastProvider } from './components/Toast'
 import { AuthProvider } from './contexts/AuthContext'
 import ProtectedRoute from './components/ProtectedRoute'
 import { ErrorBoundary } from './components/ErrorBoundary'
+import { analyticsApi } from './utils/api'
 import './App.css'
 
 const BrightColorfulDemo = lazy(() => import('./components/demos/BrightColorfulDemo'))
@@ -28,6 +29,15 @@ const Loading = () => (
   </div>
 )
 
+/** 页面访问统计上报（路由变化时调用 /api/analytics/track） */
+const PageTracker: React.FC = () => {
+  const location = useLocation()
+  useEffect(() => {
+    analyticsApi.track(location.pathname, document.referrer || '').catch(() => {})
+  }, [location.pathname])
+  return null
+}
+
 function App() {
   return (
     <HelmetProvider>
@@ -35,6 +45,7 @@ function App() {
         <ToastProvider>
           <AuthProvider>
             <BrowserRouter basename={routerBasename}>
+              <PageTracker />
               <a href="#main-content" className="skip-link">Skip to content</a>
               <div className="grain" aria-hidden="true" />
               <ErrorBoundary>
