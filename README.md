@@ -17,6 +17,7 @@
 
 ### 后台管理
 - 数据统计仪表盘 · 文章 CRUD · Markdown 编辑器（工具栏 + 自动保存 + 字数统计）
+- 文章导出/导入（Markdown 文件，含 YAML front matter）
 - 网站配置管理 · 头像/图片上传（Sharp 压缩）
 
 ### 系统功能
@@ -38,6 +39,7 @@
 | Markdown | marked + DOMPurify | 解析 + XSS 防护 |
 | 代码高亮 | highlight.js | 语法高亮 |
 | 图片处理 | Sharp | 上传压缩 |
+| 二维码 | qrcode | 微信分享二维码生成 |
 | SEO | react-helmet-async | 动态 meta |
 | 测试 | Vitest + RTL | 前后端测试 |
 
@@ -144,6 +146,7 @@ my-blog/
 │   ├── pages/                 #   页面
 │   ├── hooks/                 #   自定义 Hooks
 │   ├── utils/                 #   工具函数
+│   │   └── articleMarkdown.ts #     文章 Markdown 导出/导入格式
 │   ├── contexts/              #   Context
 │   ├── __tests__/             #   前端测试
 │   └── config/                #   配置
@@ -172,7 +175,7 @@ npm run test        # 运行全部测试
 npm run test:watch  # Watch 模式
 ```
 
-覆盖范围：AuthContext · ContentManager · ConfigManager · Articles · Auth · Config · Analytics · RateLimit · RSS · Sitemap · Health
+覆盖范围：AuthContext · ContentManager · ConfigManager · ArticleMarkdown · Articles · Auth · Config · Analytics · RateLimit · RSS · Sitemap · Health
 
 ## 认证系统
 

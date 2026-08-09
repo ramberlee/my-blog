@@ -1,6 +1,19 @@
 import type { Article } from './api'
 
-/** 把文章序列化为 Markdown 文件（YAML front matter + 正文） */
+/**
+ * Serializes an article into a Markdown file with YAML front matter.
+ *
+ * The front matter preserves title, category, tags, status, cover image,
+ * and timestamps so the file can be imported back losslessly.
+ *
+ * @param a - Article to serialize
+ * @returns Markdown text (front matter + blank line + content)
+ *
+ * @example
+ * ```ts
+ * const md = articleToMarkdown(article)
+ * ```
+ */
 export function articleToMarkdown(a: Article): string {
   const fm = [
     '---',
@@ -16,7 +29,20 @@ export function articleToMarkdown(a: Article): string {
   return fm + '\n\n' + (a.content || '') + '\n'
 }
 
-/** 解析 Markdown 文件（front matter + 正文）为文章；格式不正确时返回 null */
+/**
+ * Parses a Markdown file (YAML front matter + body) into an article.
+ *
+ * Tags accept both JSON array (`["a", "b"]`) and comma-separated (`a, b`)
+ * syntax. Missing optional fields fall back to sensible defaults.
+ *
+ * @param text - Markdown file content
+ * @returns Parsed article, or null when the file is not in the expected format
+ *
+ * @example
+ * ```ts
+ * const article = parseArticleMarkdown(md)
+ * ```
+ */
 export function parseArticleMarkdown(text: string): Article | null {
   const m = text.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/)
   if (!m) return null
@@ -57,7 +83,17 @@ export function parseArticleMarkdown(text: string): Article | null {
   }
 }
 
-/** 标题转安全文件名 */
+/**
+ * Converts an article title into a filesystem-safe filename.
+ *
+ * @param title - Article title
+ * @returns Slug suitable for a `.md` filename, never empty
+ *
+ * @example
+ * ```ts
+ * const name = slugify('React 19 新特性解析') // 'React-19-新特性解析'
+ * ```
+ */
 export function slugify(title: string): string {
   return title.replace(/[\\/:*?"<>|\s]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '') || 'article'
 }
