@@ -60,10 +60,11 @@ describe("Analytics API", () => {
     expect(res.body.pageViews).toBeTypeOf("number");
     expect(Array.isArray(res.body.topPages)).toBe(true);
     expect(Array.isArray(res.body.referrers)).toBe(true);
+    expect(Array.isArray(res.body.daily)).toBe(true);
   });
 
   it("POST /api/analytics/track records visit", async () => {
-    const res = await request(server).post("/api/analytics/track").send({ page: "Test Page", referrer: "Google" });
+    const res = await request(server).post("/api/analytics/track").send({ page: "Test Page", referrer: "Google", visitorId: "v-1" });
     expect(res.status).toBe(200);
     expect(res.body.ok).toBe(true);
 
@@ -74,5 +75,24 @@ describe("Analytics API", () => {
     );
     expect(testPage).toBeDefined();
     expect(testPage.views).toBeGreaterThanOrEqual(1);
+  });
+
+  it("deduplicates unique visitors by visitorId while counting every page view", async () => {
+    const before = (await request(server).get("/api/analytics")).body;
+
+    await request(server).post("/api/analytics/track").send({ page: "/a", visitorId: "dup-1" });
+    await request(server).post("/api/analytics/track").send({ page: "/b", visitorId: "dup-1" });
+    await request(server).post("/api/analytics/track").send({ page: "/c", visitorId: "other-1" });
+
+    const after = (await request(server).get("/api/analytics")).body;
+    expect(after.pageViews - before.pageViews).toBe(3);
+    // dup-1（首次出现）和 other-1 都是新访客，共 2 个
+    expect(after.totalVisitors - before.totalVisitors).toBe(2);
+    expect(after.todayVisitors - before.todayVisitors).toBe(2);
+
+    const lastDay = after.daily[after.daily.length - 1];
+    const beforeDay = before.daily.find((d: { date: string }) => d.date === lastDay.date);
+    expect(lastDay.visits - (beforeDay?.visits ?? 0)).toBe(3);
+    expect(lastDay.visitors - (beforeDay?.visitors ?? 0)).toBe(2);
   });
 });

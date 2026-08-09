@@ -113,16 +113,39 @@ export const authApi = {
   changePassword: (oldPassword: string, newPassword: string) => request<{ ok: boolean }>('/auth/change-password', { method: 'POST', body: JSON.stringify({ oldPassword, newPassword }) }),
 }
 
-/* ���� Analytics ���� */
+export const analyticsApi = {
+  get: () => request<AnalyticsData>('/analytics'),
+  track: (page: string, referrer?: string, visitorId?: string) => request<{ ok: boolean }>('/analytics/track', { method: 'POST', body: JSON.stringify({ page, referrer, visitorId }) }),
+}
+
+/** Daily visit statistics (PV/UV) for the trend chart. */
+export interface DailyStat {
+  date: string
+  visits: number
+  visitors: number
+}
+
+/* Analytics */
 export interface AnalyticsData {
   totalVisitors: number
   todayVisitors: number
   pageViews: number
   topPages: { page: string; views: number }[]
   referrers: { source: string; count: number }[]
+  daily: DailyStat[]
 }
 
-export const analyticsApi = {
-  get: () => request<AnalyticsData>('/analytics'),
-  track: (page: string, referrer?: string) => request<{ ok: boolean }>('/analytics/track', { method: 'POST', body: JSON.stringify({ page, referrer }) }),
+const VISITOR_ID_KEY = 'blog-visitor-id'
+
+/**
+ * Returns the stable visitor ID stored in localStorage, creating one on
+ * first visit. Used to deduplicate unique visitors in analytics.
+ */
+export function getVisitorId(): string {
+  let id = localStorage.getItem(VISITOR_ID_KEY)
+  if (!id) {
+    id = crypto.randomUUID()
+    localStorage.setItem(VISITOR_ID_KEY, id)
+  }
+  return id
 }

@@ -44,7 +44,10 @@ export function initTables(): void {
       todayVisitors INTEGER NOT NULL DEFAULT 0,
       pageViews INTEGER NOT NULL DEFAULT 0,
       topPages TEXT NOT NULL DEFAULT '[]',
-      referrers TEXT NOT NULL DEFAULT '[]'
+      referrers TEXT NOT NULL DEFAULT '[]',
+      daily TEXT NOT NULL DEFAULT '[]',
+      visitorIds TEXT NOT NULL DEFAULT '[]',
+      todayVisitorIds TEXT NOT NULL DEFAULT '[]'
     );
 
     CREATE TABLE IF NOT EXISTS auth (
@@ -57,6 +60,24 @@ export function initTables(): void {
       expiresAt INTEGER NOT NULL
     );
   `)
+}
+
+/**
+ * Migrate older analytics tables by adding columns introduced after the
+ * initial schema. SQLite has no IF NOT EXISTS for columns, so each ALTER
+ * is attempted and duplicate-column errors are ignored.
+ */
+function migrateAnalyticsColumns(): void {
+  const statements = [
+    "ALTER TABLE analytics ADD COLUMN daily TEXT NOT NULL DEFAULT '[]'",
+    "ALTER TABLE analytics ADD COLUMN visitorIds TEXT NOT NULL DEFAULT '[]'",
+    "ALTER TABLE analytics ADD COLUMN todayVisitorIds TEXT NOT NULL DEFAULT '[]'",
+  ]
+  for (const sql of statements) {
+    try {
+      db.exec(sql)
+    } catch { /* column already exists */ }
+  }
 }
 
 /**
@@ -166,5 +187,6 @@ export function migrateFromJSON(): void {
  */
 export function initDB(): void {
   initTables()
+  migrateAnalyticsColumns()
   migrateFromJSON()
 }

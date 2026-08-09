@@ -6,7 +6,7 @@ import { ToastProvider } from './components/Toast'
 import { AuthProvider } from './contexts/AuthContext'
 import ProtectedRoute from './components/ProtectedRoute'
 import { ErrorBoundary } from './components/ErrorBoundary'
-import { analyticsApi } from './utils/api'
+import { analyticsApi, getVisitorId } from './utils/api'
 import './App.css'
 
 const BrightColorfulDemo = lazy(() => import('./components/demos/BrightColorfulDemo'))
@@ -33,7 +33,7 @@ const Loading = () => (
 const PageTracker: React.FC = () => {
   const location = useLocation()
   useEffect(() => {
-    analyticsApi.track(location.pathname, document.referrer || '').catch(() => {})
+    analyticsApi.track(location.pathname, document.referrer || '', getVisitorId()).catch(() => {})
   }, [location.pathname])
   return null
 }

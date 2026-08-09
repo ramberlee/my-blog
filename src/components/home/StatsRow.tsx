@@ -4,7 +4,7 @@ import { articlesApi, analyticsApi } from '../../utils/api'
 const StatsRow: React.FC = () => {
   const [stats, setStats] = useState([
     { value: '—', label: '篇文章', loading: true },
-    { value: '—', label: '位读者', loading: true },
+    { value: '—', label: '位访客', loading: true },
     { value: '—', label: '天运营', loading: true },
     { value: '—', label: '个标签', loading: true },
   ])
@@ -27,7 +27,7 @@ const StatsRow: React.FC = () => {
 
       setStats([
         { value: String(publishedCount), label: '篇文章', loading: false },
-        { value: analytics ? analytics.totalVisitors.toLocaleString() : '—', label: '位读者', loading: false },
+        { value: analytics ? analytics.totalVisitors.toLocaleString() : '—', label: '位访客', loading: false },
         { value: String(daysRunning), label: '天运营', loading: false },
         { value: String(allTags.size), label: '个标签', loading: false },
       ])

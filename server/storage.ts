@@ -93,6 +93,9 @@ interface AnalyticsData {
   pageViews: number
   topPages: { page: string; views: number }[]
   referrers: { source: string; count: number }[]
+  daily: { date: string; visits: number; visitors: number }[]
+  visitorIds: string[]
+  todayVisitorIds: string[]
 }
 
 // --- Articles ---
@@ -223,10 +226,11 @@ function readAnalytics(): AnalyticsData {
   const row = db.prepare('SELECT * FROM analytics WHERE id = 1').get() as {
     totalVisitors: number; todayVisitors: number; pageViews: number
     topPages: string; referrers: string
+    daily: string; visitorIds: string; todayVisitorIds: string
   } | undefined
 
   if (!row) {
-    return { totalVisitors: 0, todayVisitors: 0, pageViews: 0, topPages: [], referrers: [] }
+    return { totalVisitors: 0, todayVisitors: 0, pageViews: 0, topPages: [], referrers: [], daily: [], visitorIds: [], todayVisitorIds: [] }
   }
 
   return {
@@ -235,12 +239,24 @@ function readAnalytics(): AnalyticsData {
     pageViews: row.pageViews,
     topPages: JSON.parse(row.topPages),
     referrers: JSON.parse(row.referrers),
+    daily: row.daily ? JSON.parse(row.daily) : [],
+    visitorIds: row.visitorIds ? JSON.parse(row.visitorIds) : [],
+    todayVisitorIds: row.todayVisitorIds ? JSON.parse(row.todayVisitorIds) : [],
   }
 }
 
 function writeAnalytics(data: AnalyticsData): void {
   db.prepare(`
-    INSERT OR REPLACE INTO analytics (id, totalVisitors, todayVisitors, pageViews, topPages, referrers)
-    VALUES (1, ?, ?, ?, ?, ?)
-  `).run(data.totalVisitors, data.todayVisitors, data.pageViews, JSON.stringify(data.topPages), JSON.stringify(data.referrers))
+    INSERT OR REPLACE INTO analytics (id, totalVisitors, todayVisitors, pageViews, topPages, referrers, daily, visitorIds, todayVisitorIds)
+    VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?)
+  `).run(
+    data.totalVisitors,
+    data.todayVisitors,
+    data.pageViews,
+    JSON.stringify(data.topPages),
+    JSON.stringify(data.referrers),
+    JSON.stringify(data.daily),
+    JSON.stringify(data.visitorIds),
+    JSON.stringify(data.todayVisitorIds),
+  )
 }
