@@ -96,8 +96,8 @@ npm run test
 ### 其他
 | 方法 | 路径 | 说明 |
 |------|------|------|
-| GET | /api/analytics | 统计数据（PV/UV/每日趋势/热门页面/来源渠道） |
-| POST | /api/analytics/track | 记录访问（visitorId 用于独立访客去重） |
+| GET | /api/analytics | 统计数据（PV/UV/每日趋势/热门文章/来源渠道） |
+| POST | /api/analytics/track | 记录访问（visitorId 去重 UV；文章页单独累计 topArticles） |
 | POST | /api/upload/image | 图片上传 |
 | GET | /api/rss | RSS Feed |
 | GET | /api/sitemap | Sitemap |

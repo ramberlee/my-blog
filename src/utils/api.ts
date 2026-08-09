@@ -133,6 +133,7 @@ export interface AnalyticsData {
   topPages: { page: string; views: number }[]
   referrers: { source: string; count: number }[]
   daily: DailyStat[]
+  topArticles: { id: string; views: number }[]
 }
 
 const VISITOR_ID_KEY = 'blog-visitor-id'

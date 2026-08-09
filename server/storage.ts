@@ -96,6 +96,7 @@ interface AnalyticsData {
   daily: { date: string; visits: number; visitors: number }[]
   visitorIds: string[]
   todayVisitorIds: string[]
+  topArticles: { id: string; views: number }[]
 }
 
 // --- Articles ---
@@ -227,10 +228,11 @@ function readAnalytics(): AnalyticsData {
     totalVisitors: number; todayVisitors: number; pageViews: number
     topPages: string; referrers: string
     daily: string; visitorIds: string; todayVisitorIds: string
+    topArticles: string
   } | undefined
 
   if (!row) {
-    return { totalVisitors: 0, todayVisitors: 0, pageViews: 0, topPages: [], referrers: [], daily: [], visitorIds: [], todayVisitorIds: [] }
+    return { totalVisitors: 0, todayVisitors: 0, pageViews: 0, topPages: [], referrers: [], daily: [], visitorIds: [], todayVisitorIds: [], topArticles: [] }
   }
 
   return {
@@ -242,13 +244,14 @@ function readAnalytics(): AnalyticsData {
     daily: row.daily ? JSON.parse(row.daily) : [],
     visitorIds: row.visitorIds ? JSON.parse(row.visitorIds) : [],
     todayVisitorIds: row.todayVisitorIds ? JSON.parse(row.todayVisitorIds) : [],
+    topArticles: row.topArticles ? JSON.parse(row.topArticles) : [],
   }
 }
 
 function writeAnalytics(data: AnalyticsData): void {
   db.prepare(`
-    INSERT OR REPLACE INTO analytics (id, totalVisitors, todayVisitors, pageViews, topPages, referrers, daily, visitorIds, todayVisitorIds)
-    VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?)
+    INSERT OR REPLACE INTO analytics (id, totalVisitors, todayVisitors, pageViews, topPages, referrers, daily, visitorIds, todayVisitorIds, topArticles)
+    VALUES (1, ?, ?, ?, ?, ?, ?, ?, ?, ?)
   `).run(
     data.totalVisitors,
     data.todayVisitors,
@@ -258,5 +261,6 @@ function writeAnalytics(data: AnalyticsData): void {
     JSON.stringify(data.daily),
     JSON.stringify(data.visitorIds),
     JSON.stringify(data.todayVisitorIds),
+    JSON.stringify(data.topArticles),
   )
 }

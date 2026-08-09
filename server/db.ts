@@ -47,7 +47,8 @@ export function initTables(): void {
       referrers TEXT NOT NULL DEFAULT '[]',
       daily TEXT NOT NULL DEFAULT '[]',
       visitorIds TEXT NOT NULL DEFAULT '[]',
-      todayVisitorIds TEXT NOT NULL DEFAULT '[]'
+      todayVisitorIds TEXT NOT NULL DEFAULT '[]',
+      topArticles TEXT NOT NULL DEFAULT '[]'
     );
 
     CREATE TABLE IF NOT EXISTS auth (
@@ -72,6 +73,7 @@ function migrateAnalyticsColumns(): void {
     "ALTER TABLE analytics ADD COLUMN daily TEXT NOT NULL DEFAULT '[]'",
     "ALTER TABLE analytics ADD COLUMN visitorIds TEXT NOT NULL DEFAULT '[]'",
     "ALTER TABLE analytics ADD COLUMN todayVisitorIds TEXT NOT NULL DEFAULT '[]'",
+    "ALTER TABLE analytics ADD COLUMN topArticles TEXT NOT NULL DEFAULT '[]'",
   ]
   for (const sql of statements) {
     try {

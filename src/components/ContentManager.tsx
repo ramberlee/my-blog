@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { useToast } from './Toast'
-import { articlesApi, type Article } from '../utils/api'
+import { articlesApi, analyticsApi, type Article } from '../utils/api'
 import { useRenderedMarkdown } from '../hooks/useRenderedMarkdown'
 import RichEditor from './RichEditor'
 
@@ -22,6 +22,7 @@ const labelStyle: React.CSSProperties = { display: 'block', fontSize: 13, fontWe
 const ContentManager: React.FC = () => {
   const { toast } = useToast()
   const [articles, setArticles] = useState<Article[]>([])
+  const [articleViews, setArticleViews] = useState<Record<string, number>>({})
   const [loading, setLoading] = useState(true)
   const [isEditing, setIsEditing] = useState(false)
   const [currentArticle, setCurrentArticle] = useState<Article | null>(null)
@@ -134,8 +135,13 @@ const ContentManager: React.FC = () => {
 
   /* Fetch articles from API */
   const fetchArticles = () => {
-    articlesApi.list()
-      .then(setArticles)
+    Promise.all([articlesApi.list(), analyticsApi.get()])
+      .then(([list, stats]) => {
+        setArticles(list)
+        const views: Record<string, number> = {}
+        for (const item of stats.topArticles ?? []) views[item.id] = item.views
+        setArticleViews(views)
+      })
       .catch(e => toast('加载文章失败: ' + e.message, 'error'))
       .finally(() => setLoading(false))
   }
@@ -443,7 +449,7 @@ const ContentManager: React.FC = () => {
           <SortableContext items={filtered.map(a => a.id)} strategy={verticalListSortingStrategy}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               {filtered.map(article => (
-                <SortableArticleItem key={article.id} article={article} selected={selectedIds.has(article.id)} onToggleSelect={toggleSelect} onPreview={setPreviewArticle} onEdit={handleEdit} onDelete={handleDelete} />
+                <SortableArticleItem key={article.id} article={article} views={articleViews[article.id]} selected={selectedIds.has(article.id)} onToggleSelect={toggleSelect} onPreview={setPreviewArticle} onEdit={handleEdit} onDelete={handleDelete} />
               ))}
             </div>
           </SortableContext>
@@ -451,7 +457,7 @@ const ContentManager: React.FC = () => {
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           {filtered.map(article => (
-            <SortableArticleItem key={article.id} article={article} selected={selectedIds.has(article.id)} onToggleSelect={toggleSelect} onPreview={setPreviewArticle} onEdit={handleEdit} onDelete={handleDelete} />
+            <SortableArticleItem key={article.id} article={article} views={articleViews[article.id]} selected={selectedIds.has(article.id)} onToggleSelect={toggleSelect} onPreview={setPreviewArticle} onEdit={handleEdit} onDelete={handleDelete} />
           ))}
         </div>
       )}

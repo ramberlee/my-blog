@@ -1,16 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { analyticsApi, type AnalyticsData } from '../utils/api'
-
-/** Converts a route path into a human-readable page name. */
-function pageLabel(path: string): string {
-  if (path === '/' || path === '/my-blog') return '首页'
-  if (path.startsWith('/article/')) return '文章详情'
-  if (path.startsWith('/articles')) return '文章列表'
-  if (path.startsWith('/about')) return '关于'
-  if (path.startsWith('/login')) return '登录页'
-  if (path.startsWith('/admin')) return '后台'
-  return path || '未知'
-}
+import { Link } from 'react-router-dom'
+import { analyticsApi, articlesApi, type AnalyticsData, type Article } from '../utils/api'
 
 /** Local calendar date as yyyy-mm-dd. */
 function localDateKey(d: Date): string {
@@ -19,11 +9,12 @@ function localDateKey(d: Date): string {
 
 const AnalyticsDashboard: React.FC = () => {
   const [data, setData] = useState<AnalyticsData | null>(null)
+  const [articles, setArticles] = useState<Article[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    analyticsApi.get()
-      .then(setData)
+    Promise.all([analyticsApi.get(), articlesApi.list()])
+      .then(([stats, list]) => { setData(stats); setArticles(list) })
       .catch(console.error)
       .finally(() => setIsLoading(false))
   }, [])
@@ -71,6 +62,11 @@ const AnalyticsDashboard: React.FC = () => {
   const maxVisits = Math.max(1, ...trendDays.map(x => x.visits))
   const maxReferrer = Math.max(1, ...data.referrers.map(r => r.count))
 
+  const articleTitle = (id: string): string => {
+    const found = articles.find(a => a.id === id)
+    return found ? found.title : `文章 ${id}`
+  }
+
   return (
     <div className="glass" style={{ borderRadius: 16, padding: 32 }}>
       <div className="flex items-center gap-3" style={{ marginBottom: 28 }}>
@@ -109,17 +105,25 @@ const AnalyticsDashboard: React.FC = () => {
         </div>
       </div>
 
-      {/* 热门页面 + 来源渠道 */}
+      {/* 热门文章 + 来源渠道 */}
       <div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24 }}>
         <div>
-          <h4 style={{ fontSize: 13, fontWeight: 600, color: 'var(--c-text-heading)', letterSpacing: '0.02em', marginBottom: 16 }}>热门页面</h4>
+          <h4 style={{ fontSize: 13, fontWeight: 600, color: 'var(--c-text-heading)', letterSpacing: '0.02em', marginBottom: 16 }}>热门文章</h4>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {data.topPages.length === 0 && <p style={{ fontSize: 13, color: 'var(--c-text-muted)' }}>暂无数据，访问网站后这里会展示热门页面。</p>}
-            {data.topPages.slice(0, 5).map((page, index) => (
-              <div key={index} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 16px', borderRadius: 10, background: 'var(--c-surface)', border: '1px solid var(--c-border)' }}>
-                <span style={{ fontSize: 14, color: 'var(--c-text)', fontWeight: 500 }}>{pageLabel(page.page)}</span>
-                <span style={{ fontSize: 13, color: 'var(--c-text-muted)', fontVariantNumeric: 'tabular-nums', fontWeight: 500, flexShrink: 0, marginLeft: 16 }}>{page.views} 次浏览</span>
-              </div>
+            {data.topArticles?.length === 0 && <p style={{ fontSize: 13, color: 'var(--c-text-muted)' }}>暂无数据，访问文章后这里会展示热门文章。</p>}
+            {(data.topArticles ?? []).slice(0, 5).map((item, index) => (
+              <Link
+                key={index}
+                to={`/article/${item.id}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px 16px', borderRadius: 10, background: 'var(--c-surface)', border: '1px solid var(--c-border)', textDecoration: 'none', transition: 'border-color 0.25s' }}
+                onMouseEnter={e => (e.currentTarget.style.borderColor = 'var(--c-accent-border)')}
+                onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--c-border)')}
+              >
+                <span style={{ fontSize: 14, color: 'var(--c-text)', fontWeight: 500, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{articleTitle(item.id)}</span>
+                <span style={{ fontSize: 13, color: 'var(--c-text-muted)', fontVariantNumeric: 'tabular-nums', fontWeight: 500, flexShrink: 0, marginLeft: 16 }}>{item.views} 次浏览</span>
+              </Link>
             ))}
           </div>
         </div>

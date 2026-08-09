@@ -6,6 +6,7 @@ import type { Article } from '../utils/api'
 /** Props for a single sortable article row in the content manager list */
 interface SortableArticleItemProps {
   article: Article
+  views?: number
   selected: boolean
   onToggleSelect: (id: string) => void
   onPreview: (article: Article) => void
@@ -33,7 +34,7 @@ const DragHandleIcon: React.FC = () => (
  * - Semi-transparent preview while dragging
  * - Smooth CSS transition on drop
  */
-const SortableArticleItem: React.FC<SortableArticleItemProps> = ({ article, selected, onToggleSelect, onPreview, onEdit, onDelete }) => {
+const SortableArticleItem: React.FC<SortableArticleItemProps> = ({ article, views, selected, onToggleSelect, onPreview, onEdit, onDelete }) => {
   const {
     attributes,
     listeners,
@@ -104,6 +105,7 @@ const SortableArticleItem: React.FC<SortableArticleItemProps> = ({ article, sele
             <div style={{ fontSize: 12, color: 'var(--c-text-muted)', display: 'flex', gap: 8, alignItems: 'center' }}>
               <span>{article.category || '未分类'}</span><span>·</span><span>{article.createdAt}</span>
               {article.updatedAt !== article.createdAt && <><span>·</span><span>更新于 {article.updatedAt}</span></>}
+              {typeof views === 'number' && <><span>·</span><span>{views} 次浏览</span></>}
             </div>
             <p style={{ fontSize: 13, color: 'var(--c-text-muted)', marginTop: 6, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{article.content}</p>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginTop: 8 }}>

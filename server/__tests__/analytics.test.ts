@@ -61,6 +61,7 @@ describe("Analytics API", () => {
     expect(Array.isArray(res.body.topPages)).toBe(true);
     expect(Array.isArray(res.body.referrers)).toBe(true);
     expect(Array.isArray(res.body.daily)).toBe(true);
+    expect(Array.isArray(res.body.topArticles)).toBe(true);
   });
 
   it("POST /api/analytics/track records visit", async () => {
@@ -75,6 +76,14 @@ describe("Analytics API", () => {
     );
     expect(testPage).toBeDefined();
     expect(testPage.views).toBeGreaterThanOrEqual(1);
+
+    // article detail pages are counted per article
+    const artRes = await request(server).post("/api/analytics/track").send({ page: "/article/abc", visitorId: "v-1" });
+    expect(artRes.status).toBe(200);
+    const stats2 = (await request(server).get("/api/analytics")).body;
+    const topArticle = stats2.topArticles.find((a: { id: string }) => a.id === "abc");
+    expect(topArticle).toBeDefined();
+    expect(topArticle.views).toBe(1);
   });
 
   it("deduplicates unique visitors by visitorId while counting every page view", async () => {

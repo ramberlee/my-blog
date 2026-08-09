@@ -16,6 +16,7 @@ interface AnalyticsData {
   daily: DailyEntry[]
   visitorIds: string[]
   todayVisitorIds: string[]
+  topArticles: { id: string; views: number }[]
 }
 
 const FILE = 'analytics.json'
@@ -29,6 +30,7 @@ const DEFAULT: AnalyticsData = {
   daily: [],
   visitorIds: [],
   todayVisitorIds: [],
+  topArticles: [],
 }
 
 /** Returns the local calendar date as yyyy-mm-dd. */
@@ -103,6 +105,18 @@ analytics.post('/track', async (c) => {
   else data.topPages.push({ page, views: 1 })
   data.topPages.sort((a, b) => b.views - a.views)
   if (data.topPages.length > 10) data.topPages = data.topPages.slice(0, 10)
+
+  // Top articles (only for article detail pages)
+  const articleMatch = page.match(/(?:^|\/)article\/([^/?#]+)/)
+  if (articleMatch) {
+    const articleId = articleMatch[1]
+    data.topArticles = data.topArticles ?? []
+    const artIdx = data.topArticles.findIndex(a => a.id === articleId)
+    if (artIdx >= 0) data.topArticles[artIdx].views++
+    else data.topArticles.push({ id: articleId, views: 1 })
+    data.topArticles.sort((a, b) => b.views - a.views)
+    if (data.topArticles.length > 10) data.topArticles = data.topArticles.slice(0, 10)
+  }
 
   // Referrers
   if (referrer) {

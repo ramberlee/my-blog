@@ -11,6 +11,13 @@ vi.mock('../utils/api', () => ({
     list: (...a: any[]) => mockList(...a),
     create: vi.fn(), update: vi.fn(), delete: vi.fn(), import: vi.fn(),
   },
+  analyticsApi: {
+    get: vi.fn().mockResolvedValue({
+      totalVisitors: 0, todayVisitors: 0, pageViews: 0,
+      topPages: [], referrers: [], daily: [], topArticles: [],
+    }),
+    track: vi.fn(),
+  },
 }))
 
 const articles = [
