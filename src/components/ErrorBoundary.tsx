@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 interface Props { children: React.ReactNode; fallback?: React.ReactNode; onReset?: () => void }
 interface State { hasError: boolean; error: Error | null }
@@ -51,12 +52,12 @@ export const ErrorFallback: React.FC<{ error: Error | null; onReset: () => void 
         >
           重试
         </button>
-        <a
-          href="/"
+        <Link
+          to="/"
           style={{ padding: '10px 24px', borderRadius: 8, background: 'var(--c-surface)', color: 'var(--c-text-muted)', fontSize: 14, fontWeight: 500, border: '1px solid var(--c-border)', fontFamily: 'var(--font-body)', textDecoration: 'none' }}
         >
           返回首页
-        </a>
+        </Link>
       </div>
     </div>
   </div>

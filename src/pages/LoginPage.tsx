@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useSiteConfig, getLogoLetter } from '../hooks/useSiteConfig'
 import { Helmet } from 'react-helmet-async'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import { useToast } from '../components/Toast'
 
@@ -115,14 +115,14 @@ const LoginPage: React.FC = () => {
 
           {/* Back to home */}
           <div style={{ textAlign: 'center', marginTop: 24 }}>
-            <a
-              href="/"
+            <Link
+              to="/"
               style={{ fontSize: 13, color: 'var(--c-text-muted)', transition: 'color 0.25s' }}
               onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--c-accent)')}
               onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--c-text-muted)')}
             >
               ← 返回首页
-            </a>
+            </Link>
           </div>
         </div>
       </div>
