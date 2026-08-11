@@ -32,3 +32,6 @@ server/data/
 
 # Error log
 server/data/error.log
+
+# Test output
+test-results/
