@@ -18,7 +18,7 @@
 ### 后台管理
 - 数据统计仪表盘 · 文章 CRUD · Markdown 编辑器（工具栏 + 自动保存 + 字数统计）
 - 文章导出/导入（Markdown 文件，含 YAML front matter）
-- 网站配置管理 · 头像/图片上传（Sharp 压缩）
+- 网站配置管理 · 头像/图片上传 · 首页摄影作品配置（Sharp 压缩）
 
 ### 系统功能
 - SHA-256 认证 + Session · 速率限制 · CSRF 防护 · 输入验证
@@ -89,8 +89,8 @@ npm run test
 ### 配置
 | 方法 | 路径 | 说明 |
 |------|------|------|
-| GET | /api/config | 获取配置 |
-| PUT | /api/config | 更新配置 |
+| GET | /api/config | 获取配置（含 heroImages 摄影作品） |
+| PUT | /api/config | 更新配置（可提交 heroImages: [{ id, url, alt }]） |
 | POST | /api/config/reset | 重置配置 |
 
 ### 其他
@@ -150,6 +150,7 @@ my-blog/
 │   ├── contexts/              #   Context
 │   ├── __tests__/             #   前端测试
 │   └── config/                #   配置
+│       └── heroImages.ts      #     首页摄影作品默认图
 ├── .github/workflows/ci.yml   # CI/CD
 ├── .env.example               # 环境变量模板
 ├── AGENTS.md                  # Agent 文档规范
@@ -175,7 +176,7 @@ npm run test        # 运行全部测试
 npm run test:watch  # Watch 模式
 ```
 
-覆盖范围：AuthContext · ContentManager · ConfigManager · ArticleMarkdown · Articles · Auth · Config · Analytics · RateLimit · RSS · Sitemap · Health
+覆盖范围：AuthContext · ContentManager · ConfigManager · HeroSection · ArticleMarkdown · Articles · Auth · Config · Analytics · RateLimit · RSS · Sitemap · Health
 
 ## 认证系统
 

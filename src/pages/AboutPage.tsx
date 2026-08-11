@@ -266,7 +266,7 @@ const AboutPage: React.FC = () => {
 
       <footer style={{ borderTop: '1px solid var(--c-border)' }}>
         <div className="mx-auto" style={{ maxWidth: 1200, padding: '32px 24px', textAlign: 'center' }}>
-          <p style={{ fontSize: 13, color: 'var(--c-text-muted)' }}>? {new Date().getFullYear()} {getSiteName(config)}. 保留所有权利.</p>
+          <p style={{ fontSize: 13, color: 'var(--c-text-muted)' }}>© {new Date().getFullYear()} {getSiteName(config)}. 保留所有权利.</p>
         </div>
       </footer>
     </div>

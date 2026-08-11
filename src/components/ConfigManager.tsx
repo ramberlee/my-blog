@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useToast } from './Toast'
-import { configApi, authApi, uploadApi, resolveAssetUrl, type SiteConfig } from '../utils/api'
+import { configApi, authApi, uploadApi, resolveAssetUrl, type HeroImage, type SiteConfig } from '../utils/api'
+import { DEFAULT_HERO_IMAGES } from '../config/heroImages'
 
 const inputStyle: React.CSSProperties = { width: '100%', padding: '10px 14px', borderRadius: 10, background: 'var(--c-surface)', border: '1px solid var(--c-border)', color: 'var(--c-text-heading)', fontSize: 14, outline: 'none', fontFamily: 'var(--font-body)', transition: 'border-color 0.25s' }
 const labelStyle: React.CSSProperties = { display: 'block', fontSize: 13, fontWeight: 600, color: 'var(--c-text)', marginBottom: 6, letterSpacing: '0.01em' }
@@ -13,6 +14,7 @@ const ConfigManager: React.FC = () => {
   const [editForm, setEditForm] = useState<SiteConfig | null>(null)
   const [showPwChange, setShowPwChange] = useState(false)
   const [uploading, setUploading] = useState(false)
+  const [uploadingHeroIndex, setUploadingHeroIndex] = useState<number | null>(null)
   const [pwForm, setPwForm] = useState({ oldPw: '', newPw: '', confirmPw: '' })
 
   useEffect(() => {
@@ -44,18 +46,31 @@ const ConfigManager: React.FC = () => {
   }
 
 
-  const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const updateHeroImage = (index: number, patch: Partial<HeroImage>) =>
+    setEditForm(prev => prev ? { ...prev, heroImages: prev.heroImages.map((img, i) => i === index ? { ...img, ...patch } : img) } : prev)
+
+  const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>, heroIndex?: number) => {
     const file = e.target.files?.[0]
     if (!file || !editForm) return
-    setUploading(true)
+    if (heroIndex === undefined) {
+      setUploading(true)
+    } else {
+      setUploadingHeroIndex(heroIndex)
+    }
     try {
       const { url } = await uploadApi.image(file)
-      setEditForm({ ...editForm, author: { ...editForm.author, avatar: url } })
-      toast('头像上传成功', 'success')
+      if (heroIndex === undefined) {
+        setEditForm({ ...editForm, author: { ...editForm.author, avatar: url } })
+        toast('头像上传成功', 'success')
+      } else {
+        updateHeroImage(heroIndex, { url })
+        toast('摄影作品上传成功', 'success')
+      }
     } catch (err: any) {
       toast(err.message || '上传失败', 'error')
     } finally {
       setUploading(false)
+      setUploadingHeroIndex(null)
       e.target.value = ''
     }
   }
@@ -96,13 +111,37 @@ const ConfigManager: React.FC = () => {
                   <label style={{ padding: '8px 16px', borderRadius: 8, background: 'var(--c-accent)', color: '#fff', fontSize: 13, fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--font-body)', display: 'flex', alignItems: 'center', gap: 6, whiteSpace: 'nowrap', opacity: uploading ? 0.6 : 1, transition: 'opacity 0.25s' }}>
                     <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
                     {uploading ? '上传中...' : '上传图片'}
-                    <input type="file" accept="image/*" onChange={handleAvatarUpload} style={{ display: 'none' }} disabled={uploading} />
+                    <input type="file" accept="image/*" onChange={e => handleUpload(e)} style={{ display: 'none' }} disabled={uploading} />
                   </label>
                   <span style={{ fontSize: 12, color: 'var(--c-text-muted)' }}>或输入 URL</span>
                 </div>
                 <input type="text" value={editForm.author.avatar || ''} onChange={e => setEditForm({ ...editForm, author: { ...editForm.author, avatar: e.target.value } })} style={inputStyle} placeholder="https://..." onFocus={e => (e.currentTarget.style.borderColor = 'var(--c-accent-border)')} onBlur={e => (e.currentTarget.style.borderColor = 'var(--c-border)')} /></div>
               <div><label style={labelStyle}>作者简介</label><input type="text" value={editForm.author.bio} onChange={e => setEditForm({ ...editForm, author: { ...editForm.author, bio: e.target.value } })} style={inputStyle} onFocus={e => (e.currentTarget.style.borderColor = 'var(--c-accent-border)')} onBlur={e => (e.currentTarget.style.borderColor = 'var(--c-border)')} /></div>
               <div><label style={labelStyle}>邮箱</label><input type="email" value={editForm.author.email} onChange={e => setEditForm({ ...editForm, author: { ...editForm.author, email: e.target.value } })} style={inputStyle} onFocus={e => (e.currentTarget.style.borderColor = 'var(--c-accent-border)')} onBlur={e => (e.currentTarget.style.borderColor = 'var(--c-border)')} /></div>
+            </div>
+          </div>
+          <div>
+            <h4 style={{ fontSize: 14, fontWeight: 600, color: 'var(--c-text-heading)', marginBottom: 16, paddingBottom: 12, borderBottom: '1px solid var(--c-border)' }}>首页摄影作品</h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+              {editForm.heroImages.map((img, index) => (
+                <div key={img.id} style={{ display: 'grid', gridTemplateColumns: '112px 1fr', gap: 14, padding: 14, borderRadius: 12, background: 'var(--c-surface)', border: '1px solid var(--c-border)' }}>
+                  <div style={{ width: 112, height: 84, borderRadius: 10, overflow: 'hidden', flexShrink: 0, background: 'var(--c-bg)', border: '1px solid var(--c-border)' }}>
+                    {img.url && <img src={resolveAssetUrl(img.url)} alt={img.alt} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />}
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: 10, minWidth: 0 }}>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 8 }}>
+                      <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--c-text-heading)' }}>{index === 0 ? '主图' : `侧图 ${index}`}</span>
+                      <label style={{ padding: '6px 12px', borderRadius: 8, background: 'var(--c-accent)', color: '#fff', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--font-body)', display: 'inline-flex', alignItems: 'center', gap: 6, opacity: uploadingHeroIndex === index || uploading ? 0.6 : 1, transition: 'opacity 0.25s' }}>
+                        <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
+                        {uploadingHeroIndex === index ? '上传中...' : '上传图片'}
+                        <input type="file" accept="image/*" onChange={e => handleUpload(e, index)} style={{ display: 'none' }} disabled={uploading || uploadingHeroIndex !== null} />
+                      </label>
+                    </div>
+                    <input type="text" value={img.url} onChange={e => updateHeroImage(index, { url: e.target.value })} style={inputStyle} placeholder="https://... 或 /uploads/xxx.jpg" onFocus={e => (e.currentTarget.style.borderColor = 'var(--c-accent-border)')} onBlur={e => (e.currentTarget.style.borderColor = 'var(--c-border)')} />
+                    <input type="text" value={img.alt} onChange={e => updateHeroImage(index, { alt: e.target.value })} style={inputStyle} placeholder="图片描述" onFocus={e => (e.currentTarget.style.borderColor = 'var(--c-accent-border)')} onBlur={e => (e.currentTarget.style.borderColor = 'var(--c-border)')} />
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
           <div>
@@ -162,6 +201,19 @@ const ConfigManager: React.FC = () => {
             {config.author.social.twitter && <div><div style={{ fontSize: 12, color: 'var(--c-text-muted)', marginBottom: 2 }}>Twitter</div><div style={{ fontSize: 14, color: 'var(--c-text)' }}>{config.author.social.twitter}</div></div>}
             {config.author.social.weibo && <div><div style={{ fontSize: 12, color: 'var(--c-text-muted)', marginBottom: 2 }}>微博</div><div style={{ fontSize: 14, color: 'var(--c-text)' }}>{config.author.social.weibo}</div></div>}
           </div>
+        </div>
+      </div>
+
+      <div style={{ padding: '20px 24px', borderRadius: 12, background: 'var(--c-surface)', border: '1px solid var(--c-border)', marginBottom: 32 }}>
+        <h4 style={{ fontSize: 12, fontWeight: 600, color: 'var(--c-accent)', letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: 16 }}>首页摄影作品</h4>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 16 }}>
+          {(config.heroImages || DEFAULT_HERO_IMAGES).map(img => (
+            <div key={img.id}>
+              {img.url && <img src={resolveAssetUrl(img.url)} alt={img.alt} style={{ width: '100%', aspectRatio: '16/10', objectFit: 'cover', borderRadius: 10, border: '1px solid var(--c-border)', marginBottom: 8 }} />}
+              <div style={{ fontSize: 12, color: 'var(--c-text-muted)', wordBreak: 'break-all' }}>{img.url}</div>
+              <div style={{ fontSize: 12, color: 'var(--c-text)', marginTop: 2 }}>{img.alt}</div>
+            </div>
+          ))}
         </div>
       </div>
 

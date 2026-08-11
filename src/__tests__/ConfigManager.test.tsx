@@ -15,12 +15,18 @@ vi.mock('../utils/api', () => ({
     reset: vi.fn(),
   },
   authApi: { changePassword: vi.fn() },
+  resolveAssetUrl: (url: string) => url,
 }))
 
 const mockConfig = {
   siteName: 'TestBlog',
   siteDescription: 'A test blog',
   author: { name: 'TestAuthor', bio: 'Developer', email: 'test@example.com', social: { github: 'https://github.com/testuser', twitter: '', weibo: '' } },
+  heroImages: [
+    { id: 'hero-main', url: 'https://example.com/photo-1.jpg', alt: 'Main photo' },
+    { id: 'hero-side-1', url: 'https://example.com/photo-2.jpg', alt: 'Side photo one' },
+    { id: 'hero-side-2', url: 'https://example.com/photo-3.jpg', alt: 'Side photo two' },
+  ],
 }
 
 const wrap = () => render(<MemoryRouter><ToastProvider><ConfigManager /></ToastProvider></MemoryRouter>)
@@ -49,6 +55,8 @@ describe('ConfigManager', () => {
     await user.click(screen.getByText('编辑配置'))
     expect(screen.getByText('保存配置')).toBeInTheDocument()
     expect(screen.getByText('取消')).toBeInTheDocument()
+    expect(screen.getByText('首页摄影作品')).toBeInTheDocument()
+    expect(screen.getByDisplayValue('https://example.com/photo-1.jpg')).toBeInTheDocument()
   })
 
   it('saves config changes', async () => {

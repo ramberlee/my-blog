@@ -86,7 +86,16 @@ export const uploadApi = {
   },
 }
 
-/* ���� Config ���� */
+/** A single photography slot rendered in the homepage hero grid. */
+export interface HeroImage {
+  /** Stable id used as a React key while editing. */
+  id: string
+  /** Public URL or uploaded path of the image. */
+  url: string
+  /** Accessible description shown to visitors. */
+  alt: string
+}
+
 export interface SiteConfig {
   siteName: string
   siteDescription: string
@@ -97,11 +106,16 @@ export interface SiteConfig {
     email: string
     social: { github?: string; twitter?: string; weibo?: string }
   }
+  /** Three photography images rendered in the homepage hero grid. */
+  heroImages: HeroImage[]
 }
 
 export const configApi = {
+  /** Fetches the full site configuration with defaults applied. */
   get: () => request<SiteConfig>('/config'),
+  /** Deep-merges partial updates into the stored site configuration. */
   update: (data: Partial<SiteConfig>) => request<SiteConfig>('/config', { method: 'PUT', body: JSON.stringify(data) }),
+  /** Restores the default site configuration. */
   reset: () => request<SiteConfig>('/config/reset', { method: 'POST' }),
 }
 

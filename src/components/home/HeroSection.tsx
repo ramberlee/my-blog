@@ -1,7 +1,14 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { useSiteConfig } from '../../hooks/useSiteConfig'
+import { resolveAssetUrl } from '../../utils/api'
+import { DEFAULT_HERO_IMAGES } from '../../config/heroImages'
 
 const HeroSection: React.FC = () => {
+  const config = useSiteConfig()
+  const heroImages = config?.heroImages?.length === 3 ? config.heroImages : DEFAULT_HERO_IMAGES
+  const [heroMain, heroSide1, heroSide2] = heroImages
+
   return (
     <section
       aria-label="英雄区域"
@@ -130,8 +137,8 @@ const HeroSection: React.FC = () => {
             }}
           >
             <img
-              src="https://picsum.photos/seed/bloghero/800/500"
-              alt="博客工作空间，展示笔记本电脑和笔记本"
+              src={resolveAssetUrl(heroMain.url)}
+              alt={heroMain.alt}
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, var(--c-overlay-medium), transparent)' }} />
@@ -139,16 +146,16 @@ const HeroSection: React.FC = () => {
           <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
             <div style={{ borderRadius: 16, overflow: 'hidden', flex: 1, position: 'relative' }}>
               <img
-                src="https://picsum.photos/seed/blogcode/400/300"
-                alt="代码编辑器展示 TypeScript 语法"
+                src={resolveAssetUrl(heroSide1.url)}
+                alt={heroSide1.alt}
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, var(--c-overlay-medium), transparent)' }} />
             </div>
             <div style={{ borderRadius: 16, overflow: 'hidden', flex: 1, position: 'relative' }}>
               <img
-                src="https://picsum.photos/seed/blognature/400/300"
-                alt="金色时刻的山脉风景"
+                src={resolveAssetUrl(heroSide2.url)}
+                alt={heroSide2.alt}
                 style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />
               <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, var(--c-overlay-medium), transparent)' }} />

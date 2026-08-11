@@ -1,4 +1,4 @@
-﻿import { describe, it, expect, beforeAll, afterAll, vi } from "vitest";
+import { describe, it, expect, beforeAll, afterAll, vi } from "vitest";
 
 const { tempDir, cleanup } = await vi.hoisted(async () => {
   const { mkdtempSync, rmSync } = await import("node:fs");
@@ -61,6 +61,17 @@ describe("Config API", () => {
     expect(res.body.author.name).toBeTypeOf("string");
   });
 
+  it("GET /api/config returns default heroImages", async () => {
+    const res = await request(server).get("/api/config");
+    expect(res.status).toBe(200);
+    expect(res.body.heroImages).toHaveLength(3);
+    expect(res.body.heroImages[0]).toMatchObject({
+      id: "hero-main",
+      url: expect.any(String),
+      alt: expect.any(String),
+    });
+  });
+
   it("PUT /api/config updates config", async () => {
     const updates = {
       siteName: "My Updated Blog",
@@ -72,11 +83,23 @@ describe("Config API", () => {
     expect(res.body.author.name).toBe("Updated Author");
   });
 
+  it("PUT /api/config updates heroImages", async () => {
+    const heroImages = [
+      { id: "hero-main", url: "/uploads/photo-1.jpg", alt: "街拍" },
+      { id: "hero-side-1", url: "/uploads/photo-2.jpg", alt: "夜景" },
+      { id: "hero-side-2", url: "/uploads/photo-3.jpg", alt: "人像" },
+    ];
+    const res = await request(server).put("/api/config").send({ heroImages });
+    expect(res.status).toBe(200);
+    expect(res.body.heroImages).toEqual(heroImages);
+  });
+
   it("POST /api/config/reset resets config", async () => {
     await request(server).put("/api/config").send({ siteName: "Changed" });
 
     const res = await request(server).post("/api/config/reset");
     expect(res.status).toBe(200);
     expect(res.body.siteName).toBe("个人博客");
+    expect(res.body.heroImages).toHaveLength(3);
   });
 });
