@@ -169,12 +169,15 @@ const HeroSection: React.FC = () => {
                 aria-expanded={expanded}
                 onClick={() => setExpanded(prev => !prev)}
                 style={{
-                  display: 'inline-flex',
+                  display: 'flex',
                   alignItems: 'center',
-                  gap: 8,
+                  justifyContent: 'space-between',
+                  gap: 16,
+                  width: '100%',
+                  maxWidth: 900,
                   marginTop: 16,
-                  padding: '12px 20px',
-                  borderRadius: 10,
+                  padding: '10px 16px',
+                  borderRadius: 16,
                   border: '1px solid var(--c-border-strong)',
                   background: 'var(--c-surface)',
                   color: 'var(--c-text)',
@@ -182,9 +185,33 @@ const HeroSection: React.FC = () => {
                   fontSize: 14,
                   cursor: 'pointer',
                   transition: 'all 0.3s var(--ease-out-expo)',
+                  textAlign: 'left',
                 }}
               >
-                {expanded ? '收起全部' : `展开全部 ${heroImages.length} 张作品`}
+                <span
+                  aria-hidden="true"
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(4, minmax(0, 1fr))',
+                    gap: 6,
+                    width: 'min(100%, 320px)',
+                  }}
+                >
+                  {heroImages.slice(HERO_COLLAPSED_COUNT, HERO_COLLAPSED_COUNT + 4).map(image => (
+                    <span
+                      key={image.id}
+                      style={{ aspectRatio: '4/3', borderRadius: 8, overflow: 'hidden', display: 'block' }}
+                    >
+                      <LazyImage
+                        src={image.url}
+                        alt=""
+                        aria-hidden="true"
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                      />
+                    </span>
+                  ))}
+                </span>
+                <span style={{ whiteSpace: 'nowrap' }}>{expanded ? '收起全部' : `展开全部 ${heroImages.length} 张作品`}</span>
               </button>
             )}
           </>
