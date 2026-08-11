@@ -18,7 +18,19 @@ Object.defineProperty(globalThis, 'localStorage', { value: localStorageMock })
 
 // Mock IntersectionObserver
 class MockIntersectionObserver {
-  observe = vi.fn()
+  private readonly callback: IntersectionObserverCallback
+
+  constructor(callback: IntersectionObserverCallback) {
+    this.callback = callback
+  }
+
+  observe = vi.fn((_element: Element) => {
+    this.callback(
+      [{ isIntersecting: true } as IntersectionObserverEntry],
+      this as unknown as IntersectionObserver,
+    )
+  })
+
   unobserve = vi.fn()
   disconnect = vi.fn()
 }

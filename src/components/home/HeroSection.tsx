@@ -1,13 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useSiteConfig } from '../../hooks/useSiteConfig'
-import { resolveAssetUrl } from '../../utils/api'
 import { DEFAULT_HERO_IMAGES } from '../../config/heroImages'
+import LazyImage from '../LazyImage'
+
+const HERO_COLLAPSED_COUNT = 6
+const HERO_EXPAND_THRESHOLD = 8
 
 const HeroSection: React.FC = () => {
   const config = useSiteConfig()
-  const heroImages = config?.heroImages?.length === 3 ? config.heroImages : DEFAULT_HERO_IMAGES
-  const [heroMain, heroSide1, heroSide2] = heroImages
+  const heroImages = config?.heroImages ?? DEFAULT_HERO_IMAGES
+  const [expanded, setExpanded] = useState(false)
+
+  const shouldCollapse = heroImages.length > HERO_EXPAND_THRESHOLD
+  const visibleImages = shouldCollapse && !expanded ? heroImages.slice(0, HERO_COLLAPSED_COUNT) : heroImages
 
   return (
     <section
@@ -126,42 +132,63 @@ const HeroSection: React.FC = () => {
           </Link>
         </div>
 
-        {/* Hero image grid — asymmetric */}
-        <div className="reveal hidden md:grid" style={{ gridTemplateColumns: '1.2fr 0.8fr', gap: 16, maxWidth: 900 }}>
-          <div
-            style={{
-              borderRadius: 16,
-              overflow: 'hidden',
-              aspectRatio: '16/10',
-              position: 'relative',
-            }}
-          >
-            <img
-              src={resolveAssetUrl(heroMain.url)}
-              alt={heroMain.alt}
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-            />
-            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, var(--c-overlay-medium), transparent)' }} />
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-            <div style={{ borderRadius: 16, overflow: 'hidden', flex: 1, position: 'relative' }}>
-              <img
-                src={resolveAssetUrl(heroSide1.url)}
-                alt={heroSide1.alt}
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-              />
-              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, var(--c-overlay-medium), transparent)' }} />
+        {/* Hero image grid — dynamic responsive photo gallery */}
+        {heroImages.length > 0 && (
+          <>
+            <div
+              data-testid="hero-photo-grid"
+              className="reveal grid grid-cols-2 md:grid-cols-4"
+              style={{ gap: 16, maxWidth: 900, marginBottom: shouldCollapse ? 16 : 0 }}
+            >
+              {visibleImages.map((image, index) => (
+                <div
+                  key={image.id}
+                  className={!expanded && index === 0 ? 'col-span-2' : undefined}
+                  style={{
+                    borderRadius: 16,
+                    overflow: 'hidden',
+                    position: 'relative',
+                    aspectRatio: expanded || index > 0 ? '4/3' : '16/10',
+                  }}
+                >
+                  <LazyImage
+                    src={image.url}
+                    alt={image.alt}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                  />
+                  <div
+                    aria-hidden="true"
+                    style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, var(--c-overlay-medium), transparent)' }}
+                  />
+                </div>
+              ))}
             </div>
-            <div style={{ borderRadius: 16, overflow: 'hidden', flex: 1, position: 'relative' }}>
-              <img
-                src={resolveAssetUrl(heroSide2.url)}
-                alt={heroSide2.alt}
-                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-              />
-              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, var(--c-overlay-medium), transparent)' }} />
-            </div>
-          </div>
-        </div>
+            {shouldCollapse && (
+              <button
+                type="button"
+                aria-expanded={expanded}
+                onClick={() => setExpanded(prev => !prev)}
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  marginTop: 16,
+                  padding: '12px 20px',
+                  borderRadius: 10,
+                  border: '1px solid var(--c-border-strong)',
+                  background: 'var(--c-surface)',
+                  color: 'var(--c-text)',
+                  fontWeight: 600,
+                  fontSize: 14,
+                  cursor: 'pointer',
+                  transition: 'all 0.3s var(--ease-out-expo)',
+                }}
+              >
+                {expanded ? '收起全部' : `展开全部 ${heroImages.length} 张作品`}
+              </button>
+            )}
+          </>
+        )}
       </div>
     </section>
   )
