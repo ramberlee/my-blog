@@ -13,7 +13,7 @@ export default defineConfig({
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg'],
+      includeAssets: ['favicon.ico'],
       manifest: {
         name: "Ramber's Blog",
         short_name: 'Blog',
@@ -22,7 +22,7 @@ export default defineConfig({
         background_color: '#0c0a09',
         display: 'standalone',
         icons: [
-          { src: 'favicon.svg', sizes: 'any', type: 'image/svg+xml' }
+          { src: 'favicon.ico', sizes: '256x256', type: 'image/x-icon' }
         ]
       },
       workbox: {
