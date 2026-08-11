@@ -94,6 +94,68 @@ describe("Config API", () => {
     expect(res.body.heroImages).toEqual(heroImages);
   });
 
+  it("PUT /api/config accepts 5 heroImages", async () => {
+    const heroImages = [
+      { id: "hero-1", url: "/uploads/1.jpg", alt: "作品一" },
+      { id: "hero-2", url: "/uploads/2.jpg", alt: "作品二" },
+      { id: "hero-3", url: "/uploads/3.jpg", alt: "作品三" },
+      { id: "hero-4", url: "/uploads/4.jpg", alt: "作品四" },
+      { id: "hero-5", url: "/uploads/5.jpg", alt: "作品五" },
+    ];
+    const res = await request(server).put("/api/config").send({ heroImages });
+    expect(res.status).toBe(200);
+    expect(res.body.heroImages).toEqual(heroImages);
+  });
+
+  it("PUT /api/config accepts an empty heroImages array", async () => {
+    const res = await request(server).put("/api/config").send({ heroImages: [] });
+    expect(res.status).toBe(200);
+    expect(res.body.heroImages).toEqual([]);
+  });
+
+  const invalidHeroImages = [
+    { label: "missing id", item: { url: "/uploads/a.jpg", alt: "街拍" } },
+    { label: "missing url", item: { id: "hero-main", alt: "街拍" } },
+    { label: "missing alt", item: { id: "hero-main", url: "/uploads/a.jpg" } },
+    { label: "empty id", item: { id: "", url: "/uploads/a.jpg", alt: "街拍" } },
+    { label: "empty url", item: { id: "hero-main", url: "", alt: "街拍" } },
+    { label: "empty alt", item: { id: "hero-main", url: "/uploads/a.jpg", alt: "" } },
+  ];
+
+  it.each(invalidHeroImages)(
+    "PUT /api/config rejects heroImages with $label and does not write config",
+    async ({ item }) => {
+      const baseline = [
+        { id: "hero-main", url: "/uploads/baseline-a.jpg", alt: "基线一" },
+        { id: "hero-side-1", url: "/uploads/baseline-b.jpg", alt: "基线二" },
+        { id: "hero-side-2", url: "/uploads/baseline-c.jpg", alt: "基线三" },
+      ];
+      await request(server).put("/api/config").send({ heroImages: baseline });
+
+      const res = await request(server).put("/api/config").send({ heroImages: [item] });
+      expect(res.status).toBe(400);
+      expect(res.body.error).toBeTypeOf("string");
+
+      const after = await request(server).get("/api/config");
+      expect(after.status).toBe(200);
+      expect(after.body.heroImages).toEqual(baseline);
+    },
+  );
+
+  it("GET /api/config returns an existing 3-item heroImages config unchanged", async () => {
+    const heroImages = [
+      { id: "hero-side-2", url: "/uploads/third.jpg", alt: "第三张" },
+      { id: "hero-main", url: "/uploads/first.jpg", alt: "第一张" },
+      { id: "hero-side-1", url: "/uploads/second.jpg", alt: "第二张" },
+    ];
+    const put = await request(server).put("/api/config").send({ heroImages });
+    expect(put.status).toBe(200);
+
+    const res = await request(server).get("/api/config");
+    expect(res.status).toBe(200);
+    expect(res.body.heroImages).toEqual(heroImages);
+  });
+
   it("POST /api/config/reset resets config", async () => {
     await request(server).put("/api/config").send({ siteName: "Changed" });
 

@@ -14,7 +14,7 @@ interface HeroImage {
 interface SiteConfig {
   siteName: string; siteDescription: string
   author: { name: string; bio: string; email: string; social: { github?: string; twitter?: string; weibo?: string } }
-  /** Three photography images rendered in the homepage hero grid. */
+  /** Any number of photography images rendered in the homepage hero grid. */
   heroImages: HeroImage[]
 }
 
@@ -46,6 +46,7 @@ const config = new Hono()
  * GET /api/config
  *
  * Returns the full site configuration with defaults applied.
+ * Supports any number of photography images; `heroImages` may also be empty.
  *
  * @returns `SiteConfig` — 200
  *
@@ -63,7 +64,8 @@ config.get('/', (c) => {
 /**
  * PUT /api/config
  *
- * Deep-merges partial updates into the stored site configuration.
+ * Deep-merges partial updates into the stored site configuration. Supports any
+ * number of photography images; `heroImages` may also be an empty array.
  *
  * @requestBody `{ siteName?: string, heroImages?: HeroImage[], ... }`
  * @returns `SiteConfig` — 200
@@ -84,8 +86,12 @@ config.put('/', async (c) => {
   }
   if (body.heroImages !== undefined) {
     if (!Array.isArray(body.heroImages)) return c.json({ error: 'heroImages 必须是数组' }, 400)
-    const invalid = body.heroImages.some(img => !img || typeof img.url !== 'string' || typeof img.alt !== 'string')
-    if (invalid) return c.json({ error: 'heroImages 每一项必须包含 url 和 alt' }, 400)
+    const invalid = body.heroImages.some(img =>
+      !img || typeof img.id !== 'string' || !img.id.trim()
+        || typeof img.url !== 'string' || !img.url.trim()
+        || typeof img.alt !== 'string' || !img.alt.trim(),
+    )
+    if (invalid) return c.json({ error: 'heroImages 每一项必须包含非空的 id、url 和 alt' }, 400)
   }
   const current = readJSON<Partial<SiteConfig>>(FILE, DEFAULT_CONFIG)
   const updated = normalizeConfig({
