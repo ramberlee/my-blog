@@ -49,6 +49,12 @@ const ConfigManager: React.FC = () => {
   const updateHeroImage = (index: number, patch: Partial<HeroImage>) =>
     setEditForm(prev => prev ? { ...prev, heroImages: prev.heroImages.map((img, i) => i === index ? { ...img, ...patch } : img) } : prev)
 
+  const addHeroImage = () =>
+    setEditForm(prev => prev ? { ...prev, heroImages: [...prev.heroImages, { id: crypto.randomUUID(), url: '', alt: '' }] } : prev)
+
+  const removeHeroImage = (index: number) =>
+    setEditForm(prev => prev ? { ...prev, heroImages: prev.heroImages.filter((_, i) => i !== index) } : prev)
+
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>, heroIndex?: number) => {
     const file = e.target.files?.[0]
     if (!file || !editForm) return
@@ -130,18 +136,26 @@ const ConfigManager: React.FC = () => {
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 10, minWidth: 0 }}>
                     <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 8 }}>
-                      <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--c-text-heading)' }}>{index === 0 ? '主图' : `侧图 ${index}`}</span>
+                      <span style={{ fontSize: 13, fontWeight: 600, color: 'var(--c-text-heading)' }}>图片 {index + 1}</span>
                       <label style={{ padding: '6px 12px', borderRadius: 8, background: 'var(--c-accent)', color: '#fff', fontSize: 12, fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--font-body)', display: 'inline-flex', alignItems: 'center', gap: 6, opacity: uploadingHeroIndex === index || uploading ? 0.6 : 1, transition: 'opacity 0.25s' }}>
                         <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
                         {uploadingHeroIndex === index ? '上传中...' : '上传图片'}
                         <input type="file" accept="image/*" onChange={e => handleUpload(e, index)} style={{ display: 'none' }} disabled={uploading || uploadingHeroIndex !== null} />
                       </label>
+                      <button type="button" aria-label="删除图片" onClick={() => removeHeroImage(index)} style={{ padding: '6px 12px', borderRadius: 8, background: 'transparent', color: 'var(--c-text-muted)', fontSize: 12, fontWeight: 500, cursor: 'pointer', border: '1px solid var(--c-border)', fontFamily: 'var(--font-body)', display: 'inline-flex', alignItems: 'center', gap: 6, marginLeft: 'auto', transition: 'all 0.25s' }} onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(239,68,68,0.3)'; e.currentTarget.style.color = '#f87171' }} onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--c-border)'; e.currentTarget.style.color = 'var(--c-text-muted)' }}>
+                        <svg width="13" height="13" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                        删除
+                      </button>
                     </div>
                     <input type="text" value={img.url} onChange={e => updateHeroImage(index, { url: e.target.value })} style={inputStyle} placeholder="https://... 或 /uploads/xxx.jpg" onFocus={e => (e.currentTarget.style.borderColor = 'var(--c-accent-border)')} onBlur={e => (e.currentTarget.style.borderColor = 'var(--c-border)')} />
                     <input type="text" value={img.alt} onChange={e => updateHeroImage(index, { alt: e.target.value })} style={inputStyle} placeholder="图片描述" onFocus={e => (e.currentTarget.style.borderColor = 'var(--c-accent-border)')} onBlur={e => (e.currentTarget.style.borderColor = 'var(--c-border)')} />
                   </div>
                 </div>
               ))}
+              <button type="button" onClick={addHeroImage} style={{ padding: '10px 18px', borderRadius: 8, background: 'var(--c-surface)', color: 'var(--c-accent)', fontSize: 13, fontWeight: 600, cursor: 'pointer', border: '1px dashed var(--c-accent-border)', fontFamily: 'var(--font-body)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, transition: 'all 0.25s' }} onMouseEnter={e => { e.currentTarget.style.background = 'var(--c-accent-soft)' }} onMouseLeave={e => { e.currentTarget.style.background = 'var(--c-surface)' }}>
+                <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+                添加图片
+              </button>
             </div>
           </div>
           <div>

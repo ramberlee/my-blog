@@ -31,6 +31,8 @@ const mockConfig = {
 
 const wrap = () => render(<MemoryRouter><ToastProvider><ConfigManager /></ToastProvider></MemoryRouter>)
 
+const heroSection = () => screen.getByRole('heading', { name: '首页摄影作品' }).closest('div') as HTMLElement
+
 describe('ConfigManager', () => {
   beforeEach(() => { vi.clearAllMocks(); mockGet.mockResolvedValue({ ...mockConfig }) })
   afterEach(() => cleanup())
@@ -57,6 +59,70 @@ describe('ConfigManager', () => {
     expect(screen.getByText('取消')).toBeInTheDocument()
     expect(screen.getByText('首页摄影作品')).toBeInTheDocument()
     expect(screen.getByDisplayValue('https://example.com/photo-1.jpg')).toBeInTheDocument()
+  })
+
+  it('adds a new hero image entry with a stable id', async () => {
+    const user = userEvent.setup()
+    vi.spyOn(crypto, 'randomUUID').mockReturnValue('new-hero-id')
+    wrap()
+    await waitFor(() => expect(screen.getByText('编辑配置')).toBeInTheDocument(), { timeout: 5000 })
+    await user.click(screen.getByText('编辑配置'))
+    await user.click(screen.getByText('添加图片'))
+    const urlInputs = heroSection().querySelectorAll('input[type="text"]')
+    expect(urlInputs.length).toBe(8)
+    expect(crypto.randomUUID).toHaveBeenCalledTimes(1)
+  })
+
+  it('removes a hero image entry and saves the updated list', async () => {
+    const user = userEvent.setup()
+    mockUpdate.mockResolvedValue({ ...mockConfig })
+    wrap()
+    await waitFor(() => expect(screen.getByText('编辑配置')).toBeInTheDocument(), { timeout: 5000 })
+    await user.click(screen.getByText('编辑配置'))
+    const deleteButtons = heroSection().querySelectorAll('button[aria-label="删除图片"]')
+    expect(deleteButtons.length).toBe(3)
+    await user.click(deleteButtons[0])
+    await user.click(screen.getByText('保存配置'))
+    await waitFor(() => expect(mockUpdate).toHaveBeenCalledTimes(1), { timeout: 5000 })
+    expect(mockUpdate).toHaveBeenCalledWith(expect.objectContaining({
+      heroImages: mockConfig.heroImages.slice(1),
+    }))
+  })
+
+  it('saves an empty hero image list', async () => {
+    const user = userEvent.setup()
+    mockUpdate.mockResolvedValue({ ...mockConfig, heroImages: [] })
+    wrap()
+    await waitFor(() => expect(screen.getByText('编辑配置')).toBeInTheDocument(), { timeout: 5000 })
+    await user.click(screen.getByText('编辑配置'))
+    for (let i = 0; i < mockConfig.heroImages.length; i++) {
+      const deleteButton = heroSection().querySelector('button[aria-label="删除图片"]')!
+      await user.click(deleteButton)
+    }
+    await user.click(screen.getByText('保存配置'))
+    await waitFor(() => expect(mockUpdate).toHaveBeenCalledTimes(1), { timeout: 5000 })
+    expect(mockUpdate).toHaveBeenCalledWith(expect.objectContaining({ heroImages: [] }))
+  })
+
+  it('saves a newly added hero image entry', async () => {
+    const user = userEvent.setup()
+    vi.spyOn(crypto, 'randomUUID').mockReturnValue('new-hero-id')
+    mockUpdate.mockResolvedValue({ ...mockConfig })
+    wrap()
+    await waitFor(() => expect(screen.getByText('编辑配置')).toBeInTheDocument(), { timeout: 5000 })
+    await user.click(screen.getByText('编辑配置'))
+    await user.click(screen.getByText('添加图片'))
+    const urlInputs = heroSection().querySelectorAll<HTMLInputElement>('input[type="text"]')
+    await user.type(urlInputs[6], 'https://example.com/photo-new.jpg')
+    await user.type(urlInputs[7], 'New photo')
+    await user.click(screen.getByText('保存配置'))
+    await waitFor(() => expect(mockUpdate).toHaveBeenCalledTimes(1), { timeout: 5000 })
+    expect(mockUpdate).toHaveBeenCalledWith(expect.objectContaining({
+      heroImages: [
+        ...mockConfig.heroImages,
+        { id: 'new-hero-id', url: 'https://example.com/photo-new.jpg', alt: 'New photo' },
+      ],
+    }))
   })
 
   it('saves config changes', async () => {
