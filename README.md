@@ -18,7 +18,7 @@
 ### 后台管理
 - 数据统计仪表盘 · 文章 CRUD · Markdown 编辑器（工具栏 + 自动保存 + 字数统计）
 - 文章导出/导入（Markdown 文件，含 YAML front matter）
-- 网站配置管理 · 头像/图片上传 · 首页摄影作品配置（Sharp 压缩）
+- 网站配置管理 · 头像/图片上传 · 首页摄影作品配置（任意数量，Sharp 压缩）
 
 ### 系统功能
 - SHA-256 认证 + Session · 速率限制 · CSRF 防护 · 输入验证
@@ -89,9 +89,20 @@ npm run test
 ### 配置
 | 方法 | 路径 | 说明 |
 |------|------|------|
-| GET | /api/config | 获取配置（含 heroImages 摄影作品） |
-| PUT | /api/config | 更新配置（可提交 heroImages: [{ id, url, alt }]） |
+| GET | /api/config | 获取配置（含 heroImages 任意数量摄影作品） |
+| PUT | /api/config | 更新配置（可提交任意数量 heroImages: [{ id, url, alt }]，支持空数组） |
 | POST | /api/config/reset | 重置配置 |
+
+`heroImages` 支持任意数量的摄影作品，可为空数组；首页 Hero 网格会按配置数量展示，超过 8 张时折叠并可通过展开按钮查看全部。
+
+```json
+PUT /api/config
+{
+  "heroImages": [
+    { "id": "hero-1", "url": "/uploads/hero-1.jpg", "alt": "城市街拍" }
+  ]
+}
+```
 
 ### 其他
 | 方法 | 路径 | 说明 |

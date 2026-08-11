@@ -86,7 +86,7 @@ export const uploadApi = {
   },
 }
 
-/** A single photography slot rendered in the homepage hero grid. */
+/** A single photography image rendered in the homepage hero grid. */
 export interface HeroImage {
   /** Stable id used as a React key while editing. */
   id: string
@@ -106,7 +106,7 @@ export interface SiteConfig {
     email: string
     social: { github?: string; twitter?: string; weibo?: string }
   }
-  /** Three photography images rendered in the homepage hero grid. */
+  /** Any number of photography images rendered in the homepage hero grid; may also be empty. */
   heroImages: HeroImage[]
 }
 
