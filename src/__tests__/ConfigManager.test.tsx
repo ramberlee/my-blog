@@ -63,7 +63,7 @@ describe('ConfigManager', () => {
 
   it('adds a new hero image entry with a stable id', async () => {
     const user = userEvent.setup()
-    vi.spyOn(crypto, 'randomUUID').mockReturnValue('new-hero-id')
+    vi.spyOn(crypto, 'randomUUID').mockReturnValue('00000000-0000-4000-8000-000000000001')
     wrap()
     await waitFor(() => expect(screen.getByText('编辑配置')).toBeInTheDocument(), { timeout: 5000 })
     await user.click(screen.getByText('编辑配置'))
@@ -106,7 +106,7 @@ describe('ConfigManager', () => {
 
   it('saves a newly added hero image entry', async () => {
     const user = userEvent.setup()
-    vi.spyOn(crypto, 'randomUUID').mockReturnValue('new-hero-id')
+    vi.spyOn(crypto, 'randomUUID').mockReturnValue('00000000-0000-4000-8000-000000000001')
     mockUpdate.mockResolvedValue({ ...mockConfig })
     wrap()
     await waitFor(() => expect(screen.getByText('编辑配置')).toBeInTheDocument(), { timeout: 5000 })
@@ -120,7 +120,7 @@ describe('ConfigManager', () => {
     expect(mockUpdate).toHaveBeenCalledWith(expect.objectContaining({
       heroImages: [
         ...mockConfig.heroImages,
-        { id: 'new-hero-id', url: 'https://example.com/photo-new.jpg', alt: 'New photo' },
+        { id: '00000000-0000-4000-8000-000000000001', url: 'https://example.com/photo-new.jpg', alt: 'New photo' },
       ],
     }))
   })
