@@ -1,0 +1,10 @@
+{
+  "status": "pass",
+  "base": "7db8c49ac4d33a76acfd361d1a9e2ae8fffaf8e1",
+  "head": "5373e93163b4ac08e11eaabcdf79c9f84b2d1935",
+  "report": ".superpowers\\sdd\\reviews\\frontend-experience.md",
+  "report_sha256": "sha256:9793074eeec41ff3f15b528874dd65a5cc805fed167f9dda9ccb2daf919ea831",
+  "plan_hash": "sha256:2abfe34bf7798a06de5dfde2143403a50987645af95af371ea1d480d8060f902",
+  "plan_revision": 1,
+  "recorded_at": "2026-08-11T15:52:19.865Z"
+}

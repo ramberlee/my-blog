@@ -1,0 +1,10 @@
+{
+  "status": "pass",
+  "base": "5373e93163b4ac08e11eaabcdf79c9f84b2d1935",
+  "head": "07f637514cdfcf03d7b18096df507c13012673b5",
+  "report": ".superpowers\\sdd\\reviews\\integration-docs.md",
+  "report_sha256": "sha256:a6ef6f6cb6a437b9bef7eb81b1412eadeed13393cab1e9638b5587676807f1ff",
+  "plan_hash": "sha256:2abfe34bf7798a06de5dfde2143403a50987645af95af371ea1d480d8060f902",
+  "plan_revision": 1,
+  "recorded_at": "2026-08-11T16:13:30.584Z"
+}

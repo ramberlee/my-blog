@@ -1,0 +1,46 @@
+# .spec-superflow.yaml — lightweight state machine
+# Derived data. Always rebuildable from artifacts. Lost/corrupt → fall back to content-level detection.
+
+# === Core state ===
+state: executing
+workflow: full
+revision: 1
+
+# === Hashes (fast staleness detection) ===
+artifacts_hash: sha256:cc62729745bacd01ae47a3006ef97fb95ad2420505bd34e8043ca05faff3aa6f
+contract_hash: sha256:19bd7550ac952babbcf23bb7036d55b36028f097ab808ceacdb9bada1d392778
+
+# === Execution progress ===
+execution_mode: sdd
+execution_plan_hash: sha256:2abfe34bf7798a06de5dfde2143403a50987645af95af371ea1d480d8060f902
+execution_plan_revision: 1
+batches_completed: 4
+test_result: null
+spec_merged: true
+spec_publication_receipt: eyJ2ZXJzaW9uIjoxLCJzb3VyY2VfaGFzaCI6InNoYTI1NjpiNmI1Zjg1ODVlMmUyZGUyNzdjMjU4YWYyNzVlMzVmZTAxYzI0YzlmNTcxYjkwMGE2M2Y4MDgxY2ZlYzIyMWU3IiwiYmFzZWxpbmVfYmVmb3JlX2hhc2giOiJzaGEyNTY6MmM5MGFkZjY4NjUxMDAwOTc1OWU0MDZmZjE0Njc3ZDNmZjFkZTViNTU3MTJiMDg5Zjc3MzM4MTJiYjA0NDg1NSIsImJhc2VsaW5lX2FmdGVyX2hhc2giOiJzaGEyNTY6NDExZjZjM2QwYmYwYjJhZmVjNzVkZWNjNWU3YWFkZWU5NGE3ZTE3MDZlZDYwYzc1OThmOWNiNGY5NzlkZmRjMSIsImNhcGFiaWxpdGllcyI6WyJoZXJvLXBob3RvZ3JhcGh5LWdyaWQiXX0
+
+# === Metadata ===
+change_name: dynamic-hero-photography
+last_transition: 2026-08-11T15:24:37.624Z
+last_transition_from: approved-for-build
+last_transition_to: executing
+
+# === Decision points ===
+dp_0_decisions: change_name=dynamic-hero-photography; intent=首页 Hero 网格展示任意数量的摄影作品，后台可上传/添加/删除并配置图片描述; artifact_language=zh-CN; workflow_path=full; constraints=保持聚焦，不引入拖拽排序等附加优化；API 结构不变；默认配置仍提供占位图; communication=draft-for-review; prototype=skip
+dp_0_result: confirmed
+dp_0_confirmed: true
+dp_0_timestamp: 2026-08-11T14:56:33Z
+dp_1_result: null
+dp_1_timestamp: null
+dp_2_result: approved: 动态摄影作品 Hero 网格规划工件确认；范围含任意数量 heroImages、后台增删上传、动态网格、空数组不渲染、8 张以上精选拼贴与展开入口
+dp_2_timestamp: 2026-08-11T15:17:31Z
+dp_3_result: approved: 执行契约批准；范围含任意数量 heroImages、后台增删上传、动态网格、空数组不渲染、8 张以上精选拼贴与展开入口；3 个串行 wave
+dp_3_timestamp: 2026-08-11T15:20:04Z
+dp_4_result: sdd: plan revision 1; user-confirmed; user-selected SDD execution mode
+dp_4_timestamp: 2026-08-11T15:24:07.418Z
+dp_5_result: null
+dp_5_timestamp: null
+dp_6_result: null
+dp_6_timestamp: null
+dp_7_result: null
+dp_7_timestamp: null
