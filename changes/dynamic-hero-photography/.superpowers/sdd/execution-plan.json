@@ -1,7 +1,7 @@
 {
   "mode": "sdd",
-  "source": "user-confirmed",
-  "rationale": "user-selected SDD execution mode",
+  "source": "user-confirmed-revision",
+  "rationale": "closure bookkeeping: tasks.md completion markers",
   "waves": [
     {
       "id": "server-config",
@@ -33,10 +33,10 @@
       ]
     }
   ],
-  "artifacts_hash": "sha256:cc62729745bacd01ae47a3006ef97fb95ad2420505bd34e8043ca05faff3aa6f",
+  "artifacts_hash": "sha256:2116548681b6a4c461c75fd460505065592d65368f5c8dbab397e90110dcf92a",
   "contract_hash": "sha256:19bd7550ac952babbcf23bb7036d55b36028f097ab808ceacdb9bada1d392778",
   "workflow": "full",
-  "revision": 1,
+  "revision": 2,
   "recommendation": {
     "available_modes": [
       "inline",
@@ -51,7 +51,7 @@
     },
     "facts": {
       "workflow": "full",
-      "documented_task_count": 0,
+      "documented_task_count": 4,
       "planned_task_count": 4,
       "planned_wave_count": 3,
       "has_parallel_wave": false,
@@ -73,7 +73,7 @@
       },
       "facts": {
         "workflow": "full",
-        "documented_task_count": 0,
+        "documented_task_count": 4,
         "planned_task_count": 4,
         "planned_wave_count": 3,
         "has_parallel_wave": false,
@@ -111,17 +111,17 @@
         ]
       }
     ],
-    "artifacts_hash": "sha256:cc62729745bacd01ae47a3006ef97fb95ad2420505bd34e8043ca05faff3aa6f",
+    "artifacts_hash": "sha256:2116548681b6a4c461c75fd460505065592d65368f5c8dbab397e90110dcf92a",
     "contract_hash": "sha256:19bd7550ac952babbcf23bb7036d55b36028f097ab808ceacdb9bada1d392778",
     "workflow": "full",
-    "execution_plan_revision_at_recommendation": null,
-    "created_at": "2026-08-11T15:21:54.899Z",
-    "hash": "sha256:f5e52d548f132427ab071d948ca08974f242b206117a528cdc76d493b2dfe3c6"
+    "execution_plan_revision_at_recommendation": 1,
+    "created_at": "2026-08-12T12:25:37.118Z",
+    "hash": "sha256:bf271f3913e42f37a5911fbec68a9078c7b7e7ca7797c7ba8d89baccef3e8fa4"
   },
   "selection": {
     "confirmed": true,
     "followed_recommendation": true,
     "acknowledged_non_recommendation": false
   },
-  "hash": "sha256:2abfe34bf7798a06de5dfde2143403a50987645af95af371ea1d480d8060f902"
+  "hash": "sha256:4ee674823d98d1cad01e77349887ad360039d1148170329dd2045bff9bba5564"
 }

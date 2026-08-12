@@ -2,18 +2,18 @@
 # Derived data. Always rebuildable from artifacts. Lost/corrupt → fall back to content-level detection.
 
 # === Core state ===
-state: executing
+state: closing
 workflow: full
-revision: 1
+revision: 2
 
 # === Hashes (fast staleness detection) ===
-artifacts_hash: sha256:cc62729745bacd01ae47a3006ef97fb95ad2420505bd34e8043ca05faff3aa6f
+artifacts_hash: sha256:2116548681b6a4c461c75fd460505065592d65368f5c8dbab397e90110dcf92a
 contract_hash: sha256:19bd7550ac952babbcf23bb7036d55b36028f097ab808ceacdb9bada1d392778
 
 # === Execution progress ===
 execution_mode: sdd
-execution_plan_hash: sha256:2abfe34bf7798a06de5dfde2143403a50987645af95af371ea1d480d8060f902
-execution_plan_revision: 1
+execution_plan_hash: sha256:4ee674823d98d1cad01e77349887ad360039d1148170329dd2045bff9bba5564
+execution_plan_revision: 2
 batches_completed: 4
 test_result: pass
 spec_merged: true
@@ -21,9 +21,9 @@ spec_publication_receipt: eyJ2ZXJzaW9uIjoxLCJzb3VyY2VfaGFzaCI6InNoYTI1NjpiNmI1Zj
 
 # === Metadata ===
 change_name: dynamic-hero-photography
-last_transition: 2026-08-11T15:24:37.624Z
-last_transition_from: approved-for-build
-last_transition_to: executing
+last_transition: 2026-08-12T12:27:30.138Z
+last_transition_from: executing
+last_transition_to: closing
 
 # === Decision points ===
 dp_0_decisions: change_name=dynamic-hero-photography; intent=首页 Hero 网格展示任意数量的摄影作品，后台可上传/添加/删除并配置图片描述; artifact_language=zh-CN; workflow_path=full; constraints=保持聚焦，不引入拖拽排序等附加优化；API 结构不变；默认配置仍提供占位图; communication=draft-for-review; prototype=skip
@@ -36,8 +36,8 @@ dp_2_result: approved: 动态摄影作品 Hero 网格规划工件确认；范围
 dp_2_timestamp: 2026-08-11T15:17:31Z
 dp_3_result: approved: 执行契约批准；范围含任意数量 heroImages、后台增删上传、动态网格、空数组不渲染、8 张以上精选拼贴与展开入口；3 个串行 wave
 dp_3_timestamp: 2026-08-11T15:20:04Z
-dp_4_result: sdd: plan revision 1; user-confirmed; user-selected SDD execution mode
-dp_4_timestamp: 2026-08-11T15:24:07.418Z
+dp_4_result: sdd: plan revision 2; user-confirmed-revision; closure bookkeeping: tasks.md completion markers
+dp_4_timestamp: 2026-08-12T12:25:51.712Z
 dp_5_result: null
 dp_5_timestamp: null
 dp_6_result: pass: 全量测试 113/113，build 通过，lint 退出码 0，e2e config.spec 2/2 通过，final review PASS；残留项均为 Minor
