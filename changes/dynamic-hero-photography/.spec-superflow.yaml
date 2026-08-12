@@ -15,7 +15,7 @@ execution_mode: sdd
 execution_plan_hash: sha256:2abfe34bf7798a06de5dfde2143403a50987645af95af371ea1d480d8060f902
 execution_plan_revision: 1
 batches_completed: 4
-test_result: null
+test_result: pass
 spec_merged: true
 spec_publication_receipt: eyJ2ZXJzaW9uIjoxLCJzb3VyY2VfaGFzaCI6InNoYTI1NjpiNmI1Zjg1ODVlMmUyZGUyNzdjMjU4YWYyNzVlMzVmZTAxYzI0YzlmNTcxYjkwMGE2M2Y4MDgxY2ZlYzIyMWU3IiwiYmFzZWxpbmVfYmVmb3JlX2hhc2giOiJzaGEyNTY6MmM5MGFkZjY4NjUxMDAwOTc1OWU0MDZmZjE0Njc3ZDNmZjFkZTViNTU3MTJiMDg5Zjc3MzM4MTJiYjA0NDg1NSIsImJhc2VsaW5lX2FmdGVyX2hhc2giOiJzaGEyNTY6NDExZjZjM2QwYmYwYjJhZmVjNzVkZWNjNWU3YWFkZWU5NGE3ZTE3MDZlZDYwYzc1OThmOWNiNGY5NzlkZmRjMSIsImNhcGFiaWxpdGllcyI6WyJoZXJvLXBob3RvZ3JhcGh5LWdyaWQiXX0
 
@@ -40,7 +40,7 @@ dp_4_result: sdd: plan revision 1; user-confirmed; user-selected SDD execution m
 dp_4_timestamp: 2026-08-11T15:24:07.418Z
 dp_5_result: null
 dp_5_timestamp: null
-dp_6_result: null
-dp_6_timestamp: null
-dp_7_result: null
-dp_7_timestamp: null
+dp_6_result: pass: 全量测试 113/113，build 通过，lint 退出码 0，e2e config.spec 2/2 通过，final review PASS；残留项均为 Minor
+dp_6_timestamp: 2026-08-11T16:29:05Z
+dp_7_result: confirmed: 用户确认归档 dynamic-hero-photography；验证、审计、spec 同步与 wave review 均已完成
+dp_7_timestamp: 2026-08-12T12:20:33Z
