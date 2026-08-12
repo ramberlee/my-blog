@@ -1,14 +1,15 @@
 {
-  "siteName": "个人博客",
-  "siteDescription": "用色彩记录生活，用创意点亮世界",
+  "siteName": "Ramber's Blog",
+  "siteDescription": "分享技术文章、生活随笔与创意作品",
   "author": {
-    "name": "张三",
-    "bio": "一名热爱技术和写作的开发者",
-    "email": "your@email.com",
+    "email": "lirobinho@sina.cn",
+    "bio": "热爱技术和写作的开发者",
     "social": {
-      "github": "https://github.com/yourusername",
+      "weibo": "https://weibo.com/u/1965788413",
       "twitter": "",
-      "weibo": "https://weibo.com/yourusername"
-    }
+      "github": "https://github.com/ramberlee"
+    },
+    "name": "Ramber",
+    "avatar": "/uploads/1786066141207-b6685f6e.jpg"
   }
 }
