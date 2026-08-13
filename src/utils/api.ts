@@ -37,7 +37,7 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
   return res.json()
 }
 
-/* ���� Articles ���� */
+/* Articles */
 export interface Article {
   id: string
   title: string
@@ -69,7 +69,7 @@ export const articlesApi = {
     request<{ ok: boolean }>('/articles/reorder', { method: 'PUT', body: JSON.stringify({ ids }) }),
 }
 
-/* ���� Upload ���� */
+/* Upload */
 export const uploadApi = {
   image: async (file: File): Promise<{ url: string; thumbUrl: string; width: number; height: number }> => {
     const formData = new FormData()
@@ -119,7 +119,7 @@ export const configApi = {
   reset: () => request<SiteConfig>('/config/reset', { method: 'POST' }),
 }
 
-/* ���� Auth ���� */
+/* Auth */
 export const authApi = {
   login: (password: string) => request<{ token: string; expiry: number }>('/auth/login', { method: 'POST', body: JSON.stringify({ password }) }),
   verify: (token: string) => request<{ valid: boolean }>('/auth/verify', { method: 'POST', body: JSON.stringify({ token }) }),

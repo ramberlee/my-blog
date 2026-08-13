@@ -1,4 +1,4 @@
-﻿import { describe, it, expect, beforeAll, afterAll, vi } from "vitest";
+import { describe, it, expect, beforeAll, afterAll, vi } from "vitest";
 
 const { tempDir, cleanup } = await vi.hoisted(async () => {
   const { mkdtempSync, rmSync } = await import("node:fs");

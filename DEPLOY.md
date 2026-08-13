@@ -4,7 +4,7 @@
 
 ### 1. 安装必要软件
 
-`ash
+```bash
 # 安装 Node.js（如果没有）
 winget install OpenJS.NodeJS.LTS
 
@@ -13,32 +13,32 @@ npm install -g pm2
 
 # 安装 tsx（TypeScript 运行时）
 npm install -g tsx
-`
+```
 
 ### 2. 克隆项目
 
-`ash
+```bash
 git clone git@github.com:ramberlee/my-blog.git
 cd my-blog
-`
+```
 
 ### 3. 安装依赖并构建
 
-`ash
+```bash
 npm install
 npm run build
-`
+```
 
 ### 4. 启动服务
 
-`ash
+```bash
 # 使用 PM2 启动
 pm2 start server/index.ts --name blog
 
 # 保存 PM2 配置
 pm2 save
 pm2 startup
-`
+```
 
 ### 5. 访问博客
 
@@ -50,7 +50,7 @@ pm2 startup
 
 ## 更新部署
 
-`ash
+```bash
 # 拉取最新代码
 git pull
 
@@ -59,7 +59,7 @@ npm run build
 
 # 重启服务
 pm2 restart blog
-`
+```
 
 ---
 
@@ -67,10 +67,10 @@ pm2 restart blog
 
 创建 .env 文件：
 
-`env
+```env
 NODE_ENV=production
 PORT=3001
-`
+```
 
 ---
 
@@ -94,23 +94,22 @@ PORT=3001
 
 ### 3. 安装 Nginx
 
-`ash
+```bash
 sudo apt update
 sudo apt install nginx -y
-`
+```
 
 ### 4. 配置 Nginx
 
 创建配置文件：
 
-`ash
+```bash
 sudo nano /etc/nginx/sites-available/blog
-`
+```
 
 添加以下内容：
 
-`
-ginx
+```nginx
 server {
     listen 80;
     server_name yourdomain.com www.yourdomain.com;
@@ -118,40 +117,40 @@ server {
     location / {
         proxy_pass http://localhost:3001;
         proxy_http_version 1.1;
-        proxy_set_header Upgrade ;
+        proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection 'upgrade';
-        proxy_set_header Host System.Management.Automation.Internal.Host.InternalHost;
-        proxy_set_header X-Real-IP ;
-        proxy_set_header X-Forwarded-For ;
-        proxy_set_header X-Forwarded-Proto ;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
     }
 }
-`
+```
 
 ### 5. 启用配置
 
-`ash
+```bash
 sudo ln -s /etc/nginx/sites-available/blog /etc/nginx/sites-enabled/
 sudo nginx -t
 sudo systemctl restart nginx
-`
+```
 
 ### 6. 安装 SSL（Let's Encrypt）
 
-`ash
+```bash
 sudo apt install certbot python3-certbot-nginx -y
 sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com
 sudo certbot renew --dry-run
-`
+```
 
 ---
 
 ## 故障排查
 
-`ash
+```bash
 # Node.js 日志
 pm2 logs blog
 
 # Nginx 日志
 sudo tail -f /var/log/nginx/error.log
-`
+```

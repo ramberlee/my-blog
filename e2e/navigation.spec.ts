@@ -1,4 +1,4 @@
-﻿import { test, expect } from '@playwright/test'
+import { test, expect } from '@playwright/test'
 
 test.describe('Navigation', () => {
   test('home \u2192 articles list \u2192 article detail \u2192 back', async ({ page }) => {

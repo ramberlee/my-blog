@@ -1,4 +1,4 @@
-﻿import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { serve } from '@hono/node-server'
 import request from 'supertest'
 import { Hono } from 'hono'

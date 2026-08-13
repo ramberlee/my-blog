@@ -1,4 +1,4 @@
-﻿import { describe, it, expect, afterEach } from 'vitest'
+import { describe, it, expect, afterEach } from 'vitest'
 import { generateCsrfToken, validateCsrfToken, clearAllCsrfTokens, csrfMiddleware } from '../middleware/csrf.js'
 import { Hono } from 'hono'
 import { serve } from '@hono/node-server'

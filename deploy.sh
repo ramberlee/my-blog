@@ -1,4 +1,4 @@
-﻿#!/bin/bash
+#!/bin/bash
 # Blog deployment script
 # Usage: ./deploy.sh [build|start|stop|restart|logs|update]
 

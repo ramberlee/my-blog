@@ -1,4 +1,4 @@
-﻿services:
+services:
   blog:
     build: .
     container_name: my-blog

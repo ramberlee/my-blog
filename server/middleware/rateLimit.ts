@@ -1,4 +1,4 @@
-﻿import type { Context, Next } from 'hono'
+import type { Context, Next } from 'hono'
 
 interface RateLimitEntry {
   count: number

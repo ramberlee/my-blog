@@ -1,4 +1,4 @@
-﻿import { randomBytes } from 'crypto'
+import { randomBytes } from 'crypto'
 import type { Context, Next } from 'hono'
 
 const tokens = new Map<string, { token: string; expires: number }>()

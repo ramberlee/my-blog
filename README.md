@@ -77,6 +77,7 @@ npm run test
 | PUT | /api/articles/:id | 更新文章 |
 | DELETE | /api/articles/:id | 删除文章 |
 | POST | /api/articles/import | 批量导入 |
+| PUT | /api/articles/reorder | 文章排序（提交排序后的 ID 列表） |
 
 ### 认证
 | 方法 | 路径 | 说明 |
@@ -128,7 +129,8 @@ my-blog/
 │   │   ├── rss.ts             #     RSS
 │   │   └── sitemap.ts         #     Sitemap
 │   ├── middleware/             #   中间件
-│   │   └── csrf.ts            #     CSRF 防护
+│   │   ├── csrf.ts            #     CSRF 防护
+│   │   └── rateLimit.ts       #     登录/接口限流
 │   ├── __tests__/             #   后端测试
 │   ├── uploads/               #   上传的图片
 │   ├── data/                  #   SQLite 数据库 + JSON 备份

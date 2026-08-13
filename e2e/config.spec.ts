@@ -1,4 +1,4 @@
-﻿import { test, expect } from '@playwright/test'
+import { test, expect } from '@playwright/test'
 
 /** Helper: login via the UI */
 async function login(page: import('@playwright/test').Page) {
