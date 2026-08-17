@@ -1,0 +1,8 @@
+version: "2"
+tunnels:
+  blog:
+    proto: http
+    addr: 3001
+  assistant:
+    proto: http
+    addr: 3080

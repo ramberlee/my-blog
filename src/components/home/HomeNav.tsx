@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import { ThemeToggle } from '../ThemeProvider'
 import { useSiteConfig, getLogoLetter, getSiteName } from '../../hooks/useSiteConfig'
 
+const ASSISTANT_URL = import.meta.env.VITE_ASSISTANT_URL ?? 'http://127.0.0.1:3080'
+
 const HomeNav: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const config = useSiteConfig()
@@ -76,6 +78,26 @@ const HomeNav: React.FC = () => {
               </Link>
             </li>
           ))}
+          <li>
+            <a
+              href={ASSISTANT_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: 'block',
+                padding: '8px 16px',
+                borderRadius: 8,
+                fontSize: 14,
+                fontWeight: 500,
+                color: 'var(--c-text-muted)',
+                transition: 'color 0.25s',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--c-text-heading)')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--c-text-muted)')}
+            >
+              助理
+            </a>
+          </li>
           <li style={{ marginLeft: 8 }}>
             <Link
               to="/admin"
@@ -126,7 +148,6 @@ const HomeNav: React.FC = () => {
               { to: '/', label: '首页' },
               { to: '/articles', label: '文章' },
               { to: '/about', label: '关于' },
-              { to: '/admin', label: '后台管理' },
             ].map((item) => (
               <Link
                 key={item.to}
@@ -144,6 +165,36 @@ const HomeNav: React.FC = () => {
                 {item.label}
               </Link>
             ))}
+            <a
+              href={ASSISTANT_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setIsMenuOpen(false)}
+              style={{
+                display: 'block',
+                padding: '12px 16px',
+                borderRadius: 8,
+                fontSize: 15,
+                fontWeight: 500,
+                color: 'var(--c-text)',
+              }}
+            >
+              助理
+            </a>
+            <Link
+              to="/admin"
+              onClick={() => setIsMenuOpen(false)}
+              style={{
+                display: 'block',
+                padding: '12px 16px',
+                borderRadius: 8,
+                fontSize: 15,
+                fontWeight: 500,
+                color: 'var(--c-text)',
+              }}
+            >
+              后台管理
+            </Link>
           </div>
         </nav>
       )}

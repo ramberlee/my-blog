@@ -1,0 +1,8 @@
+{
+  "token": "在此填入访问密钥 <PASTE-ACCESS-TOKEN-HERE>",
+  "frpc": "",
+  "tunnels": {
+    "blog": 0,
+    "assistant": 0
+  }
+}

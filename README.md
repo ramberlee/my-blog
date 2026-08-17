@@ -166,6 +166,11 @@ my-blog/
 │       └── heroImages.ts      #     首页摄影作品默认图
 ├── .github/workflows/ci.yml   # CI/CD
 ├── .env.example               # 环境变量模板
+├── start-tunnel.ps1           # 一键启动后端 + 隧道 + 更新部署变量（默认 Sakura Frp，-Tunnel ngrok 切换）
+├── stop-tunnel.ps1            # 停止 Sakura Frp / ngrok 隧道
+├── ngrok.yml                  # ngrok 隧道配置（blog -> 3001, assistant -> 3080）
+├── sakura-frp.example.json    # Sakura Frp 配置模板（复制为 sakura-frp.json 后填写）
+├── TUNNEL.md                  # 内网穿透配置指南
 ├── AGENTS.md                  # Agent 文档规范
 └── index.html                 # HTML 入口
 ```
@@ -211,6 +216,16 @@ PORT=3001 npm run server
 # 后端 server/ → 独立 Node.js 服务
 ```
 
+内网穿透一键部署（默认 Sakura Frp，可用 `-Tunnel ngrok` 切换回 ngrok）：
+
+```powershell
+.\start-tunnel.ps1              # 启动隧道 + 更新部署变量 + 触发 GitHub Pages 部署
+.\start-tunnel.ps1 -Tunnel ngrok
+.\stop-tunnel.ps1
+```
+
+详见 [TUNNEL.md](TUNNEL.md)。
+
 ## 环境变量
 
 | 变量 | 默认值 | 说明 |
@@ -224,7 +239,7 @@ PORT=3001 npm run server
 | SITE_URL | http://localhost:3001 | 站点公开地址（sitemap / RSS 使用） |
 | VITE_SITE_URL | - | 前端注入的站点地址（og:url / canonical） |
 | ADMIN_DEFAULT_PASSWORD | admin123 | 首次初始化默认管理员密码 |
-| VITE_API_BASE | /api | 前端 API 基地址（GitHub Pages 部署时为 ngrok 隧道地址） |
+| VITE_API_BASE | /api | 前端 API 基地址（GitHub Pages 部署时为 Sakura Frp / ngrok 隧道地址） |
 
 ## 贡献
 

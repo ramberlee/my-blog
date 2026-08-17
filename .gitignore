@@ -1,4 +1,4 @@
-﻿# Logs
+# Logs
 logs
 *.log
 npm-debug.log*
@@ -29,6 +29,9 @@ server/data/
 
 # Environment variables
 .env
+
+# Sakura Frp config (contains the access token - never commit)
+sakura-frp.json
 
 # Error log
 server/data/error.log
