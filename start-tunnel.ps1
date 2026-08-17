@@ -53,6 +53,44 @@ function Get-GitHubRepo {
   throw 'could not determine GitHub repo (git remote or gh CLI)'
 }
 
+function Invoke-Gh {
+  <#
+  .SYNOPSIS
+    运行 gh 命令；遇到 GitHub API 瞬时故障（5xx / 429 / 网络错误）自动重试。
+    gh variable get 变量不存在（404 / not found）时返回空字符串（视为未设置）。
+  #>
+  param(
+    [Parameter(Mandatory)][string[]]$Arguments,
+    [int]$MaxRetries = 5,
+    [int]$BaseDelaySec = 3
+  )
+  # gh 将错误写入 stderr；脚本顶部 $ErrorActionPreference='Stop' 在 Windows
+  # PowerShell 5.1 下会把原生命令 stderr 变成终止错误（即使 2>$null 也无法抑制），
+  # 因此这里临时改为 Continue，自行根据退出码处理结果。
+  $oldEap = $ErrorActionPreference
+  $ErrorActionPreference = 'Continue'
+  try {
+    for ($attempt = 0; $attempt -le $MaxRetries; $attempt++) {
+      $out = & gh @Arguments 2>&1
+      $code = $LASTEXITCODE
+      $text = ($out | Out-String).Trim()
+      if ($code -eq 0) { return $text }
+      if ($Arguments[0] -eq 'variable' -and $Arguments[1] -eq 'get' -and $text -match 'not found|404') {
+        return ''
+      }
+      if ($attempt -lt $MaxRetries) {
+        $delay = [int]($BaseDelaySec * [Math]::Pow(2, $attempt))
+        Write-Warning "gh $($Arguments -join ' ') failed (exit $code): $text - retry $($attempt + 1)/$MaxRetries in ${delay}s"
+        Start-Sleep -Seconds $delay
+      } else {
+        throw "gh $($Arguments -join ' ') still failing after $($MaxRetries + 1) attempts: $text"
+      }
+    }
+  } finally {
+    $ErrorActionPreference = $oldEap
+  }
+}
+
 function Find-Ngrok {
   $candidates = @(
     (Join-Path $env:USERPROFILE 'ngrok\ngrok.exe'),
@@ -555,20 +593,20 @@ if ($SkipDeploy) {
     Write-Warning 'gh CLI not found - skipping variable update and deploy'
   } else {
     $changed = $false
-    $currentApi = (gh variable get VITE_API_BASE --repo $Repo 2>$null | Out-String).Trim()
+    $currentApi = Invoke-Gh 'variable', 'get', 'VITE_API_BASE', '--repo', $Repo
     if ($currentApi -ne $apiBase) {
-      gh variable set VITE_API_BASE --repo $Repo --body $apiBase
+      Invoke-Gh 'variable', 'set', 'VITE_API_BASE', '--repo', $Repo, '--body', $apiBase
       Write-Host "      VITE_API_BASE -> $apiBase"
       $changed = $true
     }
-    $currentAssistant = (gh variable get VITE_ASSISTANT_URL --repo $Repo 2>$null | Out-String).Trim()
+    $currentAssistant = Invoke-Gh 'variable', 'get', 'VITE_ASSISTANT_URL', '--repo', $Repo
     if ($currentAssistant -ne $assistantUrl) {
-      gh variable set VITE_ASSISTANT_URL --repo $Repo --body $assistantUrl
+      Invoke-Gh 'variable', 'set', 'VITE_ASSISTANT_URL', '--repo', $Repo, '--body', $assistantUrl
       Write-Host "      VITE_ASSISTANT_URL -> $assistantUrl"
       $changed = $true
     }
     if ($changed) {
-      gh workflow run deploy.yml --repo $Repo
+      Invoke-Gh 'workflow', 'run', 'deploy.yml', '--repo', $Repo
       Write-Host "      deployment triggered: https://github.com/$Repo/actions"
     } else {
       Write-Host '      tunnel URLs unchanged - no redeploy needed'
