@@ -4,8 +4,10 @@ import StarterKit from '@tiptap/starter-kit'
 import Link from '@tiptap/extension-link'
 import Image from '@tiptap/extension-image'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+import { TableKit } from '@tiptap/extension-table'
 import { common, createLowlight } from 'lowlight'
 import EditorToolbar from './EditorToolbar'
+import { toEditorHtml } from '../utils/editorContent'
 
 const lowlight = createLowlight(common)
 
@@ -37,8 +39,12 @@ const RichEditor: React.FC<RichEditorProps> = ({ content, onChange, placeholder 
       CodeBlockLowlight.configure({
         lowlight,
       }),
+      TableKit,
     ],
-    content,
+    // Normalize Markdown → HTML so TipTap never receives raw Markdown.
+    // Raw Markdown would be treated as plain text and escaped into a <p>,
+    // mangling the article (see issue: imported MD shows as source code).
+    content: toEditorHtml(content ?? ''),
     editorProps: {
       attributes: {
         class: 'tiptap-editor-content',
@@ -52,7 +58,7 @@ const RichEditor: React.FC<RichEditorProps> = ({ content, onChange, placeholder 
 
   useEffect(() => {
     if (editor && content !== editor.getHTML()) {
-      editor.commands.setContent(content)
+      editor.commands.setContent(toEditorHtml(content))
     }
   }, [content]) // eslint-disable-line react-hooks/exhaustive-deps
 

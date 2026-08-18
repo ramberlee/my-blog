@@ -38,3 +38,4 @@ server/data/error.log
 
 # Test output
 test-results/
+docs/articles/RustDesk自建服务器教程.md

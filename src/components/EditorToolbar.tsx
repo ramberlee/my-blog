@@ -1,4 +1,5 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useRef } from 'react'
+import { uploadApi, resolveAssetUrl } from '../utils/api'
 import { type Editor } from '@tiptap/react'
 
 interface EditorToolbarProps {
@@ -38,11 +39,22 @@ const disabledStyle: React.CSSProperties = {
 const iconSize = 16
 
 const EditorToolbar: React.FC<EditorToolbarProps> = ({ editor }) => {
+  const fileRef = useRef<HTMLInputElement>(null)
   const addImage = useCallback(() => {
     if (!editor) return
     const url = window.prompt('输入图片 URL')
     if (url) {
       editor.chain().focus().setImage({ src: url }).run()
+    }
+  }, [editor])
+
+  const uploadImage = useCallback(async (file: File) => {
+    if (!editor) return
+    try {
+      const res = await uploadApi.image(file)
+      editor.chain().focus().setImage({ src: resolveAssetUrl(res.url) ?? res.url }).run()
+    } catch (err: any) {
+      window.alert('图片上传失败: ' + (err.message || '未知错误'))
     }
   }, [editor])
 
@@ -236,6 +248,33 @@ const EditorToolbar: React.FC<EditorToolbarProps> = ({ editor }) => {
         () => editor.chain().focus().setHorizontalRule().run(),
         false,
       )}
+      {btn(
+        <svg width={iconSize} height={iconSize} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+          <polyline points="17 8 12 3 7 8" />
+          <line x1="12" y1="3" x2="12" y2="15" />
+        </svg>,
+        '上传图片',
+        () => fileRef.current?.click(),
+        false,
+      )}
+      {btn(
+        <svg width={iconSize} height={iconSize} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+          <rect x="3" y="4" width="18" height="16" rx="2" />
+          <line x1="3" y1="10" x2="21" y2="10" />
+          <line x1="9" y1="4" x2="9" y2="20" />
+          <line x1="15" y1="4" x2="15" y2="20" />
+        </svg>,
+        '插入表格',
+        () => editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run(),
+        editor.isActive('table'),
+      )}
+
+      <input ref={fileRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={e => {
+        const file = e.target.files?.[0]
+        e.target.value = ''
+        if (file) uploadImage(file)
+      }} />
     </div>
   )
 }

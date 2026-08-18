@@ -37,6 +37,7 @@
 | 后端 | Hono 4.13 | REST API |
 | 数据库 | better-sqlite3 | SQLite 存储 |
 | Markdown | marked + DOMPurify | 解析 + XSS 防护 |
+| 富文本编辑器 | TipTap 3 | 后台文章编辑（含表格/图片/代码块） |
 | 代码高亮 | highlight.js | 语法高亮 |
 | 图片处理 | Sharp | 上传压缩 |
 | 二维码 | qrcode | 微信分享二维码生成 |
@@ -160,6 +161,7 @@ my-blog/
 │   ├── hooks/                 #   自定义 Hooks
 │   ├── utils/                 #   工具函数
 │   │   └── articleMarkdown.ts #     文章 Markdown 导出/导入格式
+│   │   └── editorContent.ts   #     编辑器 Markdown→HTML 归一化
 │   ├── contexts/              #   Context
 │   ├── __tests__/             #   前端测试
 │   └── config/                #   配置

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { useToast } from './Toast'
-import { articlesApi, analyticsApi, type Article } from '../utils/api'
+import { articlesApi, analyticsApi, uploadApi, resolveAssetUrl, type Article } from '../utils/api'
 import { useRenderedMarkdown } from '../hooks/useRenderedMarkdown'
 import RichEditor from './RichEditor'
 
@@ -35,11 +35,30 @@ const ContentManager: React.FC = () => {
   const [showTagSug, setShowTagSug] = useState(false)
   const [showCatSug, setShowCatSug] = useState(false)
   const tagRef = useRef<HTMLInputElement>(null)
+  const coverFileRef = useRef<HTMLInputElement>(null)
+  const [coverUploading, setCoverUploading] = useState(false)
   
   const searchRef = useRef<HTMLInputElement>(null)
   const [draftSavedAt, setDraftSavedAt] = useState<string | null>(null)
   
   const { html: previewHtml, loading: previewMdLoading } = useRenderedMarkdown(previewArticle?.content ?? null)
+  const { html: editPreviewHtml } = useRenderedMarkdown(editForm.content ?? null)
+
+  const handleCoverUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    e.target.value = ''
+    if (!file) return
+    try {
+      setCoverUploading(true)
+      const res = await uploadApi.image(file)
+      setEditForm({ ...editForm, coverImage: resolveAssetUrl(res.url) ?? '' })
+      toast('封面已上传', 'success')
+    } catch (err: any) {
+      toast('封面上传失败: ' + err.message, 'error')
+    } finally {
+      setCoverUploading(false)
+    }
+  }
 
   /* --- Batch selection state --- */
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
@@ -329,8 +348,18 @@ const ContentManager: React.FC = () => {
           </div>
 
           <div>
-            <label style={labelStyle}>封面图片 URL</label>
-            <input type="text" value={editForm.coverImage} onChange={e => setEditForm({ ...editForm, coverImage: e.target.value })} style={inputStyle} placeholder="https://..." onFocus={e => (e.currentTarget.style.borderColor = 'var(--c-accent-border)')} onBlur={e => (e.currentTarget.style.borderColor = 'var(--c-border)')} />
+            <label style={labelStyle}>封面图片</label>
+            <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+              <input type="text" value={editForm.coverImage} onChange={e => setEditForm({ ...editForm, coverImage: e.target.value })} style={{ ...inputStyle, flex: 1, minWidth: 200 }} placeholder="https://... 或上传本地图片" onFocus={e => (e.currentTarget.style.borderColor = 'var(--c-accent-border)')} onBlur={e => (e.currentTarget.style.borderColor = 'var(--c-border)')} />
+              <input ref={coverFileRef} type="file" accept="image/*" style={{ display: 'none' }} onChange={handleCoverUpload} />
+              <button type="button" onClick={() => coverFileRef.current?.click()} disabled={coverUploading} style={{ padding: '10px 16px', borderRadius: 10, background: coverUploading ? 'var(--c-surface)' : 'var(--c-accent)', color: coverUploading ? 'var(--c-text-muted)' : '#fff', border: 'none', fontSize: 13, fontWeight: 600, cursor: coverUploading ? 'not-allowed' : 'pointer', fontFamily: 'var(--font-body)' }}>{coverUploading ? '上传中...' : '上传封面'}</button>
+            </div>
+            {editForm.coverImage && (
+              <div style={{ marginTop: 10, display: 'flex', alignItems: 'center', gap: 10 }}>
+                <img src={resolveAssetUrl(editForm.coverImage)} alt="封面预览" style={{ width: 160, height: 90, objectFit: 'cover', borderRadius: 8, border: '1px solid var(--c-border)' }} />
+                <span style={{ fontSize: 12, color: 'var(--c-text-muted)' }}>封面预览</span>
+              </div>
+            )}
           </div>
 
           <div>
@@ -339,7 +368,7 @@ const ContentManager: React.FC = () => {
               <button onClick={() => setShowMdPreview(!showMdPreview)} style={{ padding: '4px 12px', borderRadius: 6, fontSize: 12, fontWeight: 500, cursor: 'pointer', fontFamily: 'var(--font-body)', ...(showMdPreview ? { background: 'var(--c-accent)', color: '#fff', border: 'none' } : { background: 'var(--c-surface)', color: 'var(--c-text-muted)', border: '1px solid var(--c-border)' }) }}>{showMdPreview ? '返回编辑' : '预览'}</button>
             </div>
             {showMdPreview ? (
-              <div style={{ ...inputStyle, minHeight: 280, lineHeight: 1.8, padding: '16px 20px' }} dangerouslySetInnerHTML={{ __html: editForm.content || '<p style="color: var(--c-text-muted)">暂无内容</p>' }} />
+              <div style={{ ...inputStyle, minHeight: 280, lineHeight: 1.8, padding: '16px 20px' }} dangerouslySetInnerHTML={{ __html: editPreviewHtml || '<p style="color: var(--c-text-muted)">暂无内容</p>' }} />
             ) : (
               <>
                 <RichEditor

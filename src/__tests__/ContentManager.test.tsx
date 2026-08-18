@@ -18,6 +18,8 @@ vi.mock('../utils/api', () => ({
     }),
     track: vi.fn(),
   },
+  uploadApi: { image: vi.fn() },
+  resolveAssetUrl: (u: string) => u,
 }))
 
 const articles = [
